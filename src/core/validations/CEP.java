@@ -3,7 +3,30 @@ package core.validations;
 import java.util.regex.Pattern;
 
 public class CEP {
-    public static boolean Validation(String data) { return Pattern.compile("\\d{5}-\\d{3}").matcher(data).matches(); }
+    public static boolean validation(String data) { return Pattern.compile("\\d{5}-\\d{3}").matcher(data).matches(); }
+    public static boolean validation(int data) { return data < 10000000 || data > 99999999; }
 
-    public static boolean Validation(int data) { return data < 10000000 || data > 99999999; }
+    public static CEP parseCep(int value) throws Exception { return new CEP(value); }
+    public static CEP parseCep(String value) throws Exception { return new CEP(value); }
+
+    public static int parseInt(CEP value) { return Integer.parseInt(((CEP)value).value.replace("-", "")); }
+    public static int parseInt(String value) throws Exception {
+        if(CEP.validation(value)) throw new Exception("the value is not a CEP");
+        return Integer.parseInt(value.replace("-", ""));
+    }
+
+    public static String parseStr(CEP value) { return ((CEP)value).value; }
+    public static String parseStr(int value) throws Exception {
+        if(CEP.validation(value)) throw new Exception("the value is not a CEP");
+        return String.format("%05d-%03d", value / 1000, value % 1000);
+    }
+
+    private String value;
+
+    public CEP(String value) throws Exception {
+        if(!CEP.validation(value)) new Exception("the value is not a CEP");
+        this.value = value;
+    }
+    public CEP(int value) throws Exception { this.value = CEP.parseStr(value); }
+
 }
