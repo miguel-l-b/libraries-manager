@@ -22,14 +22,14 @@ public class Library {
     }
 
     public void setCep(int data) throws InvalidValueException {
-        if(!CEP.Validation(data))
+        if(!CEP.validation(data))
             throw new InvalidValueException("the cep is invalid");
         
         this.cep = cep;
     }
 
     public void setCep(String data) throws InvalidValueException {
-        if(!CEP.Validation(data))
+        if(!CEP.validation(data))
             throw new InvalidValueException("the cep is invalid");
 
         String[] initAndEnd = data.split("-");
