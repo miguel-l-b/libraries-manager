@@ -2,7 +2,7 @@ package core.validations;
 
 import java.util.regex.Pattern;
 
-public class CEP {
+public class CEP implements Cloneable {
     public static boolean validation(String data) { return Pattern.compile("\\d{5}-\\d{3}").matcher(data).matches(); }
     public static boolean validation(int data) { return data < 10000000 || data > 99999999; }
 
@@ -28,5 +28,34 @@ public class CEP {
         this.value = value;
     }
     public CEP(int value) throws Exception { this.value = CEP.parseStr(value); }
+   
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        try { return new CEP(this.value); }
+        catch (Exception e) { throw new CloneNotSupportedException(e.getMessage()); }
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(obj == this) return true;
 
+        if(!(obj instanceof CEP)) return false;
+
+        if(!this.value.equals(((CEP)obj).value)) return false;
+        return true;
+    }
+    @Override
+    public int hashCode() {
+        int hash = 23;
+
+        hash = 3 * hash + this.value.hashCode();
+
+        if(hash < 0) hash *= -1;
+
+        return hash;
+    }
+    @Override
+    public String toString() { return String.format("CEP@%s", this.value); }
+
+    
 }
