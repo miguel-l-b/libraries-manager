@@ -3,7 +3,7 @@ package core.entities;
 import core.validations.CEP;
 import exceptions.InvalidValueException;
 
-public class Library {
+public class Library implements Cloneable {
     private String name;
     private int cep;
     private int number;
@@ -27,14 +27,9 @@ public class Library {
         
         this.cep = cep;
     }
-
     public void setCep(String data) throws InvalidValueException {
-        if(!CEP.validation(data))
-            throw new InvalidValueException("the cep is invalid");
-
-        String[] initAndEnd = data.split("-");
-
-        this.cep = Integer.parseInt(initAndEnd[0]+initAndEnd[1]);
+        try { this.cep = CEP.parseInt(data); }
+        catch (Exception e) { throw new InvalidValueException("the cep is invalid"); }
     }
 
     public void setNumber(int data) throws InvalidValueException {
@@ -58,7 +53,7 @@ public class Library {
     public String toString() { return getName()+"@"+getCepStr()+"."+getNumber(); }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         try { return new Library(this.name, this.cep, this.number); }
         catch (InvalidValueException e) { throw new CloneNotSupportedException(); }
     }
