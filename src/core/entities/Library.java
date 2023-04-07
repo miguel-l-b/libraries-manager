@@ -42,9 +42,13 @@ public class Library implements Cloneable {
     public String getName() { return this.name; }
 
     public int getCep() { return this.cep; }
-
     public String getCepStr() {
-        return this.cep+"".substring(0, 4)+"-"+this.cep+"".substring(5);
+        try { return CEP.parseStr(this.cep); }
+        catch (Exception e) { return null; }
+    }
+    public CEP getCepObj() {
+        try { return CEP.parseCep(this.cep); }
+        catch (Exception e) { return null; }
     }
 
     public int getNumber() { return this.number; }
