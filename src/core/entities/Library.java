@@ -8,6 +8,8 @@ public class Library implements Cloneable {
     private int cep;
     private int number;
 
+    public Library() { }
+
     public Library(String name, int cep, int number) throws InvalidValueException {
         setName(name);
         setCep(cep);
