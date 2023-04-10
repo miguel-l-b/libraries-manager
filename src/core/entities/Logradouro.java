@@ -17,8 +17,14 @@ public class Logradouro
     public String getBairro() { return this.bairro; }
     public  String getEstado() { return this.estado; }
     public  String getCidade() { return this.cidade; }
-    public InfoEstado getEstado_info() { return (InfoEstado)this.estado_info.clone(); }
-    public InfoCidade getCidade_info() { return (InfoCidade)this.cidade_info.clone(); }
+    public InfoEstado getEstado_info() { 
+        try { return (InfoEstado)this.estado_info.clone(); }
+        catch (CloneNotSupportedException e) { return null; } 
+    }
+    public InfoCidade getCidade_info() {
+        try { return (InfoCidade)this.cidade_info.clone(); }
+        catch (CloneNotSupportedException e) { return null; }
+    }
     
     public void setLogradouro(String logradouro) throws Exception {
         if (logradouro == null || logradouro.isEmpty())
