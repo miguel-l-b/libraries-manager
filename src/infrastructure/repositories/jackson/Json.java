@@ -16,7 +16,7 @@ public class Json {
         return jsonValue.toString();
     }
 
-    public static Object fromJson(String json, Class objectClass) throws Exception {
+    public static Object fromJson(String json, Class<?> objectClass) throws Exception {
         JsonFactory f = new MappingJsonFactory();
         JsonParser jp = f.createJsonParser(json);
         Object obj = jp.readValueAs(objectClass);
