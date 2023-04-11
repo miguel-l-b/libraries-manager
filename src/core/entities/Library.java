@@ -8,7 +8,6 @@ public class Library implements Cloneable {
     private int number;
 
     public Library() { }
-
     public Library(String name, int cep, int number) throws InvalidValueException {
         setName(name);
         setCep(cep);
@@ -26,11 +25,7 @@ public class Library implements Cloneable {
         if(!CEP.validation(data))
             throw new InvalidValueException("the cep is invalid");
         
-        this.cep = cep;
-    }
-    public void setCep(String data) throws InvalidValueException {
-        try { this.cep = CEP.parseInt(data); }
-        catch (Exception e) { throw new InvalidValueException("the cep is invalid"); }
+        this.cep = data;
     }
 
     public void setNumber(int data) throws InvalidValueException {
@@ -41,21 +36,14 @@ public class Library implements Cloneable {
     }
 
     public String getName() { return this.name; }
-
     public int getCep() { return this.cep; }
-    public String getCepStr() {
-        try { return CEP.parseStr(this.cep); }
-        catch (Exception e) { return null; }
-    }
-    public CEP getCepObj() {
-        try { return CEP.parseCep(this.cep); }
-        catch (Exception e) { return null; }
-    }
-
     public int getNumber() { return this.number; }
 
     @Override
-    public String toString() { return getName()+"@"+getCepStr()+"."+getNumber(); }
+    public String toString() {
+        try { return getName()+"@"+CEP.parseStr(getCep())+"."+getNumber(); }
+        catch (Exception e) { return null; }
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
