@@ -1,7 +1,7 @@
 package app.ports.providers;
 
 import core.entities.Logradouro;
-import core.validations.CEP;
+import core.entities.CEP;
 
 public interface ICEPProvider {
     Logradouro getAddress(CEP cep) throws Exception;
