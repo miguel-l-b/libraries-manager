@@ -7,16 +7,14 @@ import java.io.FileWriter;
 
 import app.ports.repositories.library.ICreateLibraryRepository;
 import app.ports.repositories.library.IDeleteLibraryRepository;
-import app.ports.repositories.library.IFindAllLibrariesByNameRepository;
-import app.ports.repositories.library.IFindAllLibrariesByNumberRepository;
 import app.ports.repositories.library.IFindAllLibrariesRepository;
 import app.ports.repositories.library.IFindLibraryByCepAndNumberRepository;
 import app.ports.repositories.library.IUpdateLibraryByCepAndNumberRepository;
 import core.entities.Library;
 
 public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibraryRepository,
-    IFindAllLibrariesByNameRepository, IFindAllLibrariesByNumberRepository, IFindAllLibrariesRepository,
-    IUpdateLibraryByCepAndNumberRepository, IFindLibraryByCepAndNumberRepository {
+    IFindAllLibrariesRepository, IFindLibraryByCepAndNumberRepository,
+    IUpdateLibraryByCepAndNumberRepository {
     private final String path;
     private BufferedReader reader;
     private FileWriter writer;
@@ -70,26 +68,20 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
     public void delete(int cep, int number) {
         this.readerCurrentLibraries();
 
-        if(this.findLibraryBy(cep, number) != null)
+        int index = this.getIndexOfLibraryBy(cep, number);
+        if(index < 0)
             throw new IllegalArgumentException("library not exists");
         
-        Library[] newLibraries = new Library[this.libraries.length - 1];
-
-        for(int i = 0, j = 0; i < this.libraries.length; i++)
-            if(this.libraries[i].getCep() != cep && this.libraries[i].getNumber() != number)
-                newLibraries[j++] = this.libraries[i];
+        Library[] newArray = new Library[this.libraries.length - 1];
+        int j = 0;
+        for (int i = 0; i < this.libraries.length; i++) {
+            if (i != index) {
+                newArray[j++] = this.libraries[i];
+            }
+        }
+        this.libraries = newArray;
         
         this.writeCurrentLibraries();
-    }
-
-    @Override
-    public Library[] findAllLibrariesByName(String data) {
-        return null;
-    }
-
-    @Override
-    public Library[] findAllLibrariesByNumber(int data) {
-        this.readerCurrentLibraries();
     }
 
     @Override
@@ -100,18 +92,26 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
 
     @Override
     public Library updateLibraryByCepAndNumber(int cep, int number, Library newData) {
-        // TODO Auto-generated method stub
-        return null;
+        this.readerCurrentLibraries();
+        int index = this.getIndexOfLibraryBy(cep, number);
+
+        this.libraries[index] = newData;
+        this.writeCurrentLibraries();
+        return this.libraries[index];
     }
+
+    private int getIndexOfLibraryBy(int cep, int number) {
+        for (int i = 0; i < libraries.length; i++)
+            if(libraries[i].getCep() == cep && libraries[i].getNumber() == number)
+                return i;
+        return -1;
+    } 
 
     @Override
     public Library findLibraryBy(int cep, int number) {
         this.readerCurrentLibraries();
-        
-        for(Library library : this.libraries)
-            if(library.getCep() == cep && library.getNumber() == number)
-                return library;
-
-        return null;
+        int index = this.getIndexOfLibraryBy(cep, number);        
+        if(index < 0) return null;
+        return this.libraries[index];
     }
 }
