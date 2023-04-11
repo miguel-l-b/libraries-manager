@@ -11,10 +11,10 @@ public class DeleteLibrary implements IDeleteLibrary {
 
     @Override
     public void deleteLibrary(int cep, int number) {
-        if (!CEP.validation(cep))
-            throw new IllegalArgumentException("invalid CEP");
-        if (number <= 0)
-            throw new IllegalArgumentException("invalid number");
+        if(!CEP.validation(cep))
+            throw new IllegalArgumentException(String.format("the cep: \"%s\" is not a CEP", cep));
+        if(number <= 0 || number > 99999)
+            throw new IllegalArgumentException(String.format("the number: \"%s\" is not a number", number));
             
         this.REPOSITORY.delete(cep, number);
     }
