@@ -3,8 +3,12 @@ package core.entities;
 import java.util.regex.Pattern;
 
 public class CEP implements Cloneable {
-    public static boolean validation(String data) { return Pattern.compile("\\d{5}-\\d{3}").matcher(data).matches(); }
-    public static boolean validation(int data) { return data < 10000000 || data > 99999999; }
+    public static boolean validation(String data) { 
+        return 
+            Pattern.compile("\\d{5}-\\d{3}").matcher(data).matches() || 
+            Pattern.compile("\\d{8}").matcher(data).matches();
+    }
+    public static boolean validation(int data) { return data > 10000000 || data < 99999999; }
 
     public static CEP parseCep(int value) throws Exception { return new CEP(value); }
     public static CEP parseCep(String value) throws Exception { return new CEP(value); }
@@ -17,7 +21,7 @@ public class CEP implements Cloneable {
 
     public static String parseStr(CEP value) { return ((CEP)value).value; }
     public static String parseStr(int value) throws Exception {
-        if(CEP.validation(value)) throw new Exception("the value is not a CEP");
+        if(!CEP.validation(value)) throw new Exception("the value is not a CEP");
         return String.format("%05d-%03d", value / 1000, value % 1000);
     }
 
