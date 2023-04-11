@@ -1,6 +1,5 @@
 package core.entities;
 
-import core.validations.CEP;
 import exceptions.InvalidValueException;
 
 public class Library implements Cloneable {

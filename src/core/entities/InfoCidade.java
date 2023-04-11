@@ -30,36 +30,37 @@ public class InfoCidade implements Cloneable
     }
     
     public void setArea_km2(String areaEmKm2) throws Exception {
-        if (areaEmKm2==null || areaEmKm2.length()==0)
+        if (areaEmKm2 == null || areaEmKm2.isEmpty())
             throw new Exception ("Area ausente");
 
         this.area_km2 = areaEmKm2;
     }
 
-    public String toString () {
+    @Override
+    public String toString() {
         return "Codigo IBGE: "+
                this.codigo_ibge+
                " / Area(km2): "+
                this.area_km2;
     }
 
-    public boolean equals (Object obj) {
+    @Override
+    public boolean equals(Object obj) {
         if (this==obj) return true;
         if (obj==null) return false;
-
         if (!(obj instanceof InfoCidade)) return false;
-
         if (!this.codigo_ibge.equals(((InfoCidade)obj).codigo_ibge)) return false;
         if (!this.area_km2.equals(((InfoCidade)obj).area_km2)) return false;
 
         return true;
     }
 
+    @Override
     public int hashCode() {
         int hash = 1;
-
         hash = 3 * hash + this.codigo_ibge.hashCode();
         hash = 5 * hash + this.area_km2.hashCode();
+        if(hash < 0) hash *= -1;
 
         return hash;
     }

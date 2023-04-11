@@ -1,7 +1,6 @@
 package core.entities;
 
-public class Logradouro
-{
+public class Logradouro implements Cloneable {
     private String cep;
     private String complemento;
     private String logradouro;
@@ -96,9 +95,20 @@ public class Logradouro
         this.setEstado_info (estado_info);
         this.setCep         (cep); 
     }
+    public Logradouro (Logradouro modelo) throws Exception {
+        if (modelo == null) throw new Exception("Modelo inexistente");
 
-    public Logradouro () {}
+        this.logradouro = modelo.logradouro;
+        this.complemento = modelo.complemento;
+        this.cidade = modelo.cidade;
+        this.cidade_info = (InfoCidade)modelo.cidade_info.clone();
+        this.estado = modelo.estado;
+        this.estado_info = (InfoEstado)modelo.estado_info.clone();
+        this.cep = modelo.cep;
+    }
+    public Logradouro () { }
 
+    @Override
     public String toString ()
     {
         return "Logradouro: "+
@@ -116,91 +126,50 @@ public class Logradouro
                "\nC.E.P......: "+
                this.cep;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this==obj) return true;
+        if (obj==null) return false;
 
-    public boolean equals (Object obj)
-    {
-        if (this==obj)
-            return true;
-
-        if (obj==null)
-            return false;
-
-      //if (!(this.getClass() != obj.getClass())
-      //if (!(obj.getClass != Logradouro.class))
-        if (!(obj instanceof Logradouro))
-            return false;
-
+        if (!(obj instanceof Logradouro)) return false;
         Logradouro cep = (Logradouro)obj;
 
-        if (!this.logradouro.equals(cep.logradouro))
-            return false;
-
+        if (!this.logradouro.equals(cep.logradouro)) return false;
         if ((this.complemento==null && cep.complemento!=null) ||
             (this.complemento!=null && cep.complemento==null) ||
-            !this.complemento.equals(cep.complemento))
+            !this.complemento.equals(cep.complemento)) 
             return false;
-
-        if (!this.cidade.equals(cep.cidade))
-            return false;
-
-        if (!this.cidade_info.equals(cep.cidade_info))
-            return false;
-
-        if (!this.estado.equals(cep.estado))
-            return false;
-
-        if (!this.estado_info.equals(cep.estado_info))
-            return false;
-
-        if (!this.cep.equals(cep.cep))
-            return false;
+        if (!this.cidade.equals(cep.cidade)) return false;
+        if (!this.cidade_info.equals(cep.cidade_info)) return false;
+        if (!this.estado.equals(cep.estado)) return false;
+        if (!this.estado_info.equals(cep.estado_info)) return false;
+        if (!this.cep.equals(cep.cep)) return false;
 
         return true;
     }
 
-    public int hashCode ()
+    @Override
+    public int hashCode()
     {
-        int ret=1;
+        int hash= 23;
 
-        ret = 2*ret + this.logradouro .hashCode();
+        hash = 3 * hash + this.logradouro.hashCode();
+        if (this.complemento != null) hash = 5 * hash + this.complemento.hashCode();
+        hash = 7 * hash + this.cidade.hashCode();
+        hash = 9 * hash + this.cidade_info.hashCode();
+        hash = 11 * hash + this.estado.hashCode();
+        hash = 13 * hash + this.estado_info.hashCode();
+        hash = 17 * hash + this.cep.hashCode();
 
-        if (this.complemento!=null)
-            ret = 2*ret + this.complemento.hashCode();
+        if (hash < 0) hash *= -1;
 
-        ret = 2*ret + this.cidade     .hashCode();
-        ret = 2*ret + this.cidade_info.hashCode();
-        ret = 2*ret + this.estado     .hashCode();
-        ret = 2*ret + this.estado_info.hashCode();
-        ret = 2*ret + this.cep        .hashCode();
-
-        return ret;
+        return hash;
     }
 
-    public Logradouro (Logradouro modelo) throws Exception
-    {
-        if (modelo==null)
-            throw new Exception ("Modelo inexistente");
-
-        this.logradouro  = modelo.logradouro;
-        this.complemento = modelo.complemento;
-        this.cidade      = modelo.cidade;
-        this.cidade_info = (InfoCidade)modelo.cidade_info.clone();
-        this.estado      = modelo.estado;
-        this.estado_info = (InfoEstado)modelo.estado_info.clone();
-        this.cep         = modelo.cep;
-    }
-
-    public Object clone ()
-    {
-        Logradouro ret=null;
-
-        try
-        {
-            ret = new Logradouro (this);
-        }
-        catch (Exception erro)
-        {}
-
-        return ret;
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        try { return new Logradouro(this); }
+        catch (Exception e) { throw new CloneNotSupportedException(e.getMessage()); }
     }
 }

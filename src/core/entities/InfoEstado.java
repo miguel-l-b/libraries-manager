@@ -48,6 +48,7 @@ public class InfoEstado implements Cloneable
         this.area_km2 = areaEmKm2;
     }    
 
+    @Override
     public String toString() {
         return this.nome+
             " / Codigo IBGE: "+
@@ -56,19 +57,19 @@ public class InfoEstado implements Cloneable
             this.area_km2;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj==null) return false;
         if (this==obj) return true;
-
         if (!(obj instanceof InfoEstado)) return false;
-
         if (!this.nome.equals(((InfoEstado)obj).nome)) return false;
         if (!this.codigo_ibge.equals(((InfoEstado)obj).codigo_ibge)) return false;
         if (!this.area_km2.equals(((InfoEstado)obj).area_km2)) return false;
 
         return true;
     }
-
+    
+    @Override
     public int hashCode() {
         int hash = 1;
 
