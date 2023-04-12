@@ -37,11 +37,11 @@ public class CreatePage implements ActionListener{
     public CreatePage(LibraryRepository repository){
         this.REPOSIROTY = new CreateLibrary(repository);
 
-        this.title.setBounds(30, 5, 350, 30);
+        this.title.setBounds(10, 5, 350, 30);
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
 
-        this.subtitle.setBounds(30, 30, 350, 30);
-        this.subtitle.setFont(new Font("TimesNewRoman",Font.ROMAN_BASELINE, 20));
+        this.subtitle.setBounds(30, 30, 500, 30);
+        this.subtitle.setFont(new Font("Serif", Font.PLAIN, 18));
 
         this.labelName.setBounds(30,100,120,25);
         this.labelName.setFont(new Font("Serif", Font.PLAIN,18));

@@ -24,17 +24,17 @@ public class UpdatePage implements ActionListener {
     private JLabel subtitle = new JLabel("Preencha os campos para editar: ");
     private JLabel topicUan = new JLabel("CEP e Número antigos: ");
     
-    private JLabel labelOldCep = new JLabel("CEP antigo");
-    private JLabel labelOldNumber = new JLabel("Número antigo");
+    private JLabel labelOldCep = new JLabel("CEP antigo:");
+    private JLabel labelOldNumber = new JLabel("Número antigo:");
 
     private JTextField txtOldCep = new JTextField();
     private JTextField txtOldNumber = new JTextField();
     
     private JLabel topicTchu = new JLabel("Novos valores: ");
     
-    private JLabel labelNewName = new JLabel("Novo nome");
-    private JLabel labelNewCep = new JLabel("Novo CEP");
-    private JLabel labelNewNumber = new JLabel("Novo Número");
+    private JLabel labelNewName = new JLabel("Novo Nome:");
+    private JLabel labelNewCep = new JLabel("Novo CEP:");
+    private JLabel labelNewNumber = new JLabel("Novo Número:");
 
     private JTextField txtNewName = new JTextField();
     private JTextField txtNewCep = new JTextField();
@@ -48,39 +48,42 @@ public class UpdatePage implements ActionListener {
         this.REPOSITORY_FIND = new GetLibrary(repository, repository);
 		this.REPOSITORY_UPDATE = new UpdateLibraryByCepAndNumber(repository);
 
-        this.title.setBounds(30, 5, 350, 30);
+        this.title.setBounds(10, 5, 350, 30);
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
 
-        this.subtitle.setBounds(30, 30, 350, 30);
-        this.subtitle.setFont(new Font("TimesNewRoman",Font.PLAIN, 18));
+        this.subtitle.setBounds(30, 35, 500, 30);
+        this.subtitle.setFont(new Font("Serif", Font.PLAIN, 18));
 
-        this.topicUan.setBounds(30, 70, 350,30);
-        this.topicUan.setFont(new Font("TimesNewRoman", Font.PLAIN, 18));
+        this.topicUan.setBounds(30, 80, 350,30);
+        this.topicUan.setFont(new Font("Serif", Font.BOLD, 18));
 
-        this.labelOldCep.setBounds(30, 95,160,25);
-        this.labelOldCep.setFont(new Font("Serif", Font.BOLD, 18));
-        this.txtOldCep.setBounds(160,95,160,25);
+        this.labelOldCep.setBounds(30, 120,160,25);
+        this.labelOldCep.setFont(new Font("Serif", Font.PLAIN, 18));
+        this.txtOldCep.setBounds(160,120,160,25);
 
-        this.labelOldNumber.setBounds(30,125,160,25);
-        this.labelOldNumber.setFont(new Font("Serif", Font.BOLD, 18));
-		this.txtOldNumber.setBounds(160,125,160,25);
+        this.labelOldNumber.setBounds(30,150,160,25);
+        this.labelOldNumber.setFont(new Font("Serif", Font.PLAIN, 18));
+		this.txtOldNumber.setBounds(160,150,160,25);
 
-        this.topicTchu.setBounds(30,160,350,30);
-        this.topicTchu.setFont(new Font("TimesNewRoman", Font.BOLD, 18));
+        this.topicTchu.setBounds(30,200,350,30);
+        this.topicTchu.setFont(new Font("Serif", Font.BOLD, 18));
 
-        this.labelNewName.setBounds(30,195,160,25);
+        this.labelNewName.setBounds(30,240,160,25);
         this.labelNewName.setFont(new Font("Serif", Font.PLAIN, 18));
-        this.txtNewName.setBounds(160,195,160,25);
+        this.txtNewName.setBounds(160,240,160,25);
 
-        this.labelNewCep.setBounds(30,215,160,25);
+        this.labelNewCep.setBounds(30,270,160,25);
         this.labelNewCep.setFont(new Font("Serif", Font.PLAIN, 18));
-        this.txtNewCep.setBounds(160,215,160,25);
+        this.txtNewCep.setBounds(160,270,160,25);
 
-        this.labelNewNumber.setBounds(30,245,160,25);
+        this.labelNewNumber.setBounds(30,300,160,25);
         this.labelNewNumber.setFont(new Font("Serif", Font.PLAIN, 18));
-        this.txtNewNumber.setBounds(160,245,160,25);
+        this.txtNewNumber.setBounds(160,300,160,25);
 
-        this.btnFinish.setBounds(350,400,100,40);
+        this.status.setBounds(30,370,250,25);
+        this.status.setFont(new Font("Serif", Font.PLAIN, 18));
+
+        this.btnFinish.setBounds(300,390,100,40);
         this.btnFinish.setFocusable(false);
         this.btnFinish.addActionListener(this);
 
@@ -104,7 +107,7 @@ public class UpdatePage implements ActionListener {
         this.frame.add(this.status);
         this.frame.add(this.btnFinish);
 
-        this.frame.setSize(300, 600);
+        this.frame.setSize(420, 500);
         this.frame.setLayout(null);
         this.frame.setVisible(true);
         this.handleLocation();
@@ -112,8 +115,18 @@ public class UpdatePage implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        if(e.getSource() == this.btnFinish){
+            try{
+                REPOSITORY_UPDATE.updateLibrary(this.txtOldCep.getText(),
+                                                Integer.parseInt(this.txtOldNumber.getText()),
+                                                REPOSITORY_FIND.getLibraryBy(this.txtNewCep.getText(),
+                                                Integer.parseInt(this.txtNewNumber.getText())));
+                this.status.setText("Repositório alterado com Sucesso.");
+            }
+            catch(Exception error){
+                this.status.setText(error.getMessage());
+            }
+        }
     }
     
     private void handleLocation() {
