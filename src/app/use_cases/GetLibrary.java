@@ -63,13 +63,14 @@ public class GetLibrary implements IGetLibrary {
 	}
 
 	@Override
-	public Library getLibraryBy(int cep, int number) throws InvalidValueException {
+	public Library getLibraryBy(String cep, int number) throws InvalidValueException {
 		if(!CEP.validation(cep))
 			throw new InvalidValueException(String.format("the cep: \"%s\" is not a CEP", cep));
 		if(number <= 0 || number > 99999)
 			throw new InvalidValueException(String.format("the number: \"%s\" is not a number", number));
 
-		return this.REPOSITORY_BY.findLibraryBy(cep, number);
+		try { return this.REPOSITORY_BY.findLibraryBy(CEP.parseInt(cep), number); }
+		catch (Exception e) { throw new InvalidValueException(e.getMessage()); }
 	}
 
 }
