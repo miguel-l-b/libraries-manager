@@ -20,7 +20,7 @@ public class CEPProvider implements ICEPProvider {
 
     public CEPProvider(String URL) { this.URL = URL; }
 
-    public static Object getObjeto(Class<?> tipoObjetoRetorno, String urlWebService, String... parametros) {
+    private static Object getObjeto(Class<?> tipoObjetoRetorno, String urlWebService, String... parametros) {
         try {
             for (String parametro : parametros)
                 urlWebService = urlWebService + "/" + parametro.replaceAll(" ", "%20");
@@ -41,7 +41,7 @@ public class CEPProvider implements ICEPProvider {
         }
     }
 
-    public static String inputStreamToString(InputStream is) throws IOException {
+    private static String inputStreamToString(InputStream is) throws IOException {
         if (is == null)
             return "";
 
