@@ -7,7 +7,7 @@ import app.use_cases.DeleteLibrary;
 import exceptions.InvalidValueException;
 import infrastructure.repositories.jackson.LibraryRepository;
 
-public class Delete extends Thread {
+public class Delete {
 	public final DeleteLibrary REPOSITORY;
 	
 	public Delete(LibraryRepository repository) { this.REPOSITORY = new DeleteLibrary(repository); }
@@ -23,7 +23,7 @@ public class Delete extends Thread {
 
 
 		try { REPOSITORY.deleteLibrary(cep, number); }
-		catch (InvalidValueException e) {
+		catch (Exception e) {
 			ConsoleManager.println(e.getMessage(), Colors.RED);
 			ConsoleManager.println("Pressione qualquer tecla para continuar...", Colors.RED);
 			Keyboard.getString();

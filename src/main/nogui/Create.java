@@ -4,15 +4,13 @@ import Console.Colors;
 import Console.ConsoleManager;
 import Input.Keyboard;
 import app.use_cases.CreateLibrary;
-import exceptions.InvalidValueException;
 import infrastructure.repositories.jackson.LibraryRepository;
 
-public class Create extends Thread {
+public class Create {
 	public final CreateLibrary REPOSITORY;
 
 	public Create(LibraryRepository repository) { this.REPOSITORY = new CreateLibrary(repository); }
 
-	@Override
 	public void run() {
 		ConsoleManager.clear();
 		ConsoleManager.println("Adicionar biblioteca", Colors.GREEN);
@@ -26,7 +24,7 @@ public class Create extends Thread {
 
 
 		try { REPOSITORY.createLibrary(name, cep, number); }
-		catch (InvalidValueException e) {
+		catch (Exception e) {
 			ConsoleManager.println(e.getMessage(), Colors.RED);
 			ConsoleManager.println("Pressione qualquer tecla para continuar...", Colors.RED);
 			Keyboard.getString();
