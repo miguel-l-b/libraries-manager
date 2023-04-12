@@ -19,6 +19,14 @@ public class GetLibrary implements IGetLibrary {
 		this.REPOSITORY_BY = repositoryBy;
 	}
 
+	private Library[] convertObjectToLibrary(Object[] array) {
+		Library[] newArray = new Library[array.length];
+		for (int i = 0; i < array.length; i++)
+			newArray[i] = (Library) array[i];
+		
+		return newArray;
+	}
+
 	@Override
 	public Library[] getAllLibraries() {
 		return this.REPOSITORY_ALL.findAllLibraries();
@@ -35,7 +43,7 @@ public class GetLibrary implements IGetLibrary {
 			if(library.getCep() == cepOrNumber || library.getNumber() == cepOrNumber)
 				filtered.add(library);
 
-		return (Library[]) filtered.toArray();
+		return this.convertObjectToLibrary(filtered.toArray());
 	}
 
 	@Override
@@ -47,10 +55,10 @@ public class GetLibrary implements IGetLibrary {
 		Set<Library> filtered = new HashSet<>();
 
 		for (Library library : all)
-			if(library.getName().toUpperCase() == name.toUpperCase())
+			if(library.getName().toUpperCase().equals(name.toUpperCase()))
 				filtered.add(library);
 		
-		return (Library[]) filtered.toArray();
+		return this.convertObjectToLibrary(filtered.toArray());
 		
 	}
 
