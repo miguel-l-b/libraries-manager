@@ -15,13 +15,13 @@ public class CreateLibrary implements ICreateLibrary {
 
 
     @Override
-    public void createLibrary(String name, String cep, int number) {
+    public void createLibrary(String name, String cep, int number) throws InvalidValueException {
         if(name == null || name.isBlank())
-            throw new IllegalArgumentException(String.format("the name: \"%s\" cannot be empty", name));
+            throw new InvalidValueException(String.format("the name: \"%s\" cannot be empty", name));
         if(!CEP.validation(cep))
-            throw new IllegalArgumentException(String.format("the cep: \"%s\" is not a CEP", cep));
+            throw new InvalidValueException(String.format("the cep: \"%s\" is not a CEP", cep));
         if(number <= 0 || number > 99999)
-            throw new IllegalArgumentException(String.format("the number: \"%s\" is not a number", number));
+            throw new InvalidValueException(String.format("the number: \"%s\" is not a number", number));
         
         try {
             this.REPOSITORY.create(new Library(name, CEP.parseInt(cep), number));
