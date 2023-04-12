@@ -2,6 +2,11 @@ package main.gui;
 
 import javax.swing.*;
 
+import main.gui.Windows.CreatePage;
+import main.gui.Windows.DeletePage;
+import main.gui.Windows.SelectPage;
+import main.gui.Windows.UpdatePage;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -10,7 +15,7 @@ import java.awt.event.*;
 public class LaunchPage implements ActionListener {
     JFrame frame = new JFrame();
 
-    private JLabel title = new JLabel("LaunchPage");
+    private JLabel title = new JLabel("Launch Page");
     private JLabel subtitle = new JLabel("Escolha o que deseja fazer:");
 
     private JButton btnCreate = new JButton("Create");
@@ -24,21 +29,21 @@ public class LaunchPage implements ActionListener {
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
 
         this.subtitle.setBounds(30, 30, 350, 30);
-        this.subtitle.setFont(new Font("Serif",Font.PLAIN, 22));
+        this.subtitle.setFont(new Font("TimesNewRoman",Font.PLAIN, 18));
 
         this.btnCreate.setBounds(50,70,100,40);
         this.btnCreate.setFocusable(false);
         this.btnCreate.addActionListener(this);
 
-        this.btnUpdate.setBounds(50,120,100,40);
+        this.btnUpdate.setBounds(50,140,100,40);
         this.btnUpdate.setFocusable(false);
         this.btnUpdate.addActionListener(this);
 
-        this.btnDelete.setBounds(155,70,100,40);
+        this.btnDelete.setBounds(250,70,100,40);
         this.btnDelete.setFocusable(false);
         this.btnDelete.addActionListener(this);
 
-        this.btnSelect.setBounds(155,120,100,40);
+        this.btnSelect.setBounds(250,140,100,40);
         this.btnSelect.setFocusable(false);
         this.btnSelect.addActionListener(this);
         
@@ -58,11 +63,14 @@ public class LaunchPage implements ActionListener {
     }
     @Override 
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == this.btnCreate) new CreatePage();
+        if(e.getSource() == this.btnDelete) new DeletePage();
+        if(e.getSource() == this.btnSelect) new SelectPage();
+        if(e.getSource() == this.btnUpdate) new UpdatePage();
+    }
+    
+    private void handleLocation() {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize(); 
         frame.setLocation(((d.width - frame.getWidth())/2), ((d.height - frame.getHeight())/3));
-    }
-
-    private void handleLocation() {
-
     }
 }
