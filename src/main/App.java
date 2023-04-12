@@ -15,7 +15,7 @@ public class App {
                 urlApi = args[i+1];
         }
 
-        if(args[0].equals("-nogui"))
+        if(args.length > 0 && args[0].equals("-nogui"))
             new main.nogui.App(pathData, urlApi).main(args);
         else
             new main.gui.App(pathData, urlApi).main(args);
