@@ -8,8 +8,7 @@ public class App {
         this.PATH_DATA = pathData;
         this.URL_API = urlApi;
     }
-
-    public static void main(String[] args) {
-        new LaunchPage();
+    public void main(String[] args) {
+        new LaunchPage(PATH_DATA, URL_API);
     }
 }

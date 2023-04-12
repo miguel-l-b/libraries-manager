@@ -2,6 +2,8 @@ package main.gui;
 
 import javax.swing.*;
 
+import infrastructure.providers.api.CEPProvider;
+import infrastructure.repositories.jackson.LibraryRepository;
 import main.gui.Windows.CreatePage;
 import main.gui.Windows.DeletePage;
 import main.gui.Windows.SelectPage;
@@ -13,6 +15,9 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 
 public class LaunchPage implements ActionListener {
+    public final CEPProvider API_CEP;
+    public final LibraryRepository REPOSITORY;
+
     private JFrame frame = new JFrame();
 
     private JLabel title = new JLabel("Launch Page");
@@ -23,7 +28,10 @@ public class LaunchPage implements ActionListener {
     private JButton btnUpdate = new JButton("Update");
     private JButton btnSelect = new JButton("Select");
     
-    public LaunchPage() {
+    public LaunchPage(String pathData, String urlApi) {
+
+        this.API_CEP = new CEPProvider(urlApi);
+        this.REPOSITORY = new LibraryRepository(pathData);
         //Definição do tamanho de title na LaunchPage e sua fonte
         this.title.setBounds(30, 5, 350, 30);
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
@@ -63,10 +71,10 @@ public class LaunchPage implements ActionListener {
     }
     @Override 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == this.btnCreate) new CreatePage();
-        if(e.getSource() == this.btnDelete) new DeletePage();
-        if(e.getSource() == this.btnSelect) new SelectPage();
-        if(e.getSource() == this.btnUpdate) new UpdatePage();
+        if(e.getSource() == this.btnCreate) new CreatePage(this.REPOSITORY);
+        else if(e.getSource() == this.btnDelete) new DeletePage(this.REPOSITORY);
+        else if(e.getSource() == this.btnSelect) new SelectPage(this.REPOSITORY);
+        else if(e.getSource() == this.btnUpdate) new UpdatePage(this.REPOSITORY);
     }
     
     private void handleLocation() {

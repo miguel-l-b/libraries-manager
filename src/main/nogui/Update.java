@@ -17,6 +17,7 @@ public class Update {
 	public Update(LibraryRepository repository) {
 		this.REPOSITORY_FIND = new GetLibrary(repository, repository);
 		this.REPOSITORY_UPDATE = new UpdateLibraryByCepAndNumber(repository);
+		
 	}
 
 	private void printLibrary(Library data) {
