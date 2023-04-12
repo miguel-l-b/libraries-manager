@@ -40,8 +40,10 @@ public class GetLibrary implements IGetLibrary {
 		Set<Library> filtered = new HashSet<>();
 
 		for (Library library : all)
-			if(library.getCep() == cepOrNumber || library.getNumber() == cepOrNumber)
-				filtered.add(library);
+			try {
+				if(CEP.parseInt(library.getCep()) == cepOrNumber || library.getNumber() == cepOrNumber)
+					filtered.add(library);
+			} catch (Exception e) { }
 
 		return this.convertObjectToLibrary(filtered.toArray());
 	}

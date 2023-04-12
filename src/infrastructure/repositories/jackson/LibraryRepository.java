@@ -10,6 +10,7 @@ import app.ports.repositories.library.IDeleteLibraryRepository;
 import app.ports.repositories.library.IFindAllLibrariesRepository;
 import app.ports.repositories.library.IFindLibraryByCepAndNumberRepository;
 import app.ports.repositories.library.IUpdateLibraryByCepAndNumberRepository;
+import core.entities.CEP;
 import core.entities.Library;
 
 public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibraryRepository,
@@ -51,8 +52,10 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
     @Override
     public void create(Library data) {
         this.readerCurrentLibraries();
-        if(this.findLibraryBy(data.getCep(), data.getNumber()) != null)
+        try {
+        if(this.findLibraryBy(CEP.parseInt(data.getCep()), data.getNumber()) != null)
             throw new IllegalArgumentException("library already exists");
+        } catch(Exception e) { throw new IllegalArgumentException(e.getMessage()); }
 
         Library[] newLibraries = new Library[this.libraries.length + 1];
         for(int i = 0; i < this.libraries.length; i++)
@@ -102,8 +105,10 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
 
     private int getIndexOfLibraryBy(int cep, int number) {
         for (int i = 0; i < libraries.length; i++)
-            if(libraries[i].getCep() == cep && libraries[i].getNumber() == number)
-                return i;
+            try {
+                if(CEP.parseInt(libraries[i].getCep()) == cep && libraries[i].getNumber() == number)
+                    return i;
+            } catch(Exception e) { }
         return -1;
     } 
 

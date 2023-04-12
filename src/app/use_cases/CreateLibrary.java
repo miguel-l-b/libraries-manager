@@ -24,9 +24,9 @@ public class CreateLibrary implements ICreateLibrary {
             throw new InvalidValueException(String.format("the number: \"%s\" is not a number", number));
         
         try {
-            this.REPOSITORY.create(new Library(name, CEP.parseInt(cep), number));
+            this.REPOSITORY.create(new Library(name, cep, number));
         }
-        catch (Exception e) {throw new IllegalArgumentException(e.getMessage());}
+        catch (Exception e) {e.printStackTrace(); throw new IllegalArgumentException(e.getMessage());}
     }
     
 }
