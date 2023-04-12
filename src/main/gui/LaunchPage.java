@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 
 public class LaunchPage implements ActionListener {
-    JFrame frame = new JFrame();
+    private JFrame frame = new JFrame();
 
     private JLabel title = new JLabel("Launch Page");
     private JLabel subtitle = new JLabel("Escolha o que deseja fazer:");
