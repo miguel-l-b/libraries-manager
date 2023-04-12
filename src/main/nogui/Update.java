@@ -54,7 +54,7 @@ public class Update {
 					library.setName(data);
 			ConsoleManager.print(" Cep: ", Colors.CYAN);
 			if(!(data = Keyboard.getString()).isBlank())
-				library.setCep(Integer.valueOf(data));
+				library.setCep(data);
 			ConsoleManager.print(" Number: ", Colors.CYAN);
 			if(!(data = Keyboard.getString()).isBlank())
 				library.setNumber(Integer.valueOf(data));

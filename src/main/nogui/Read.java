@@ -36,11 +36,12 @@ public class Read {
 	}
 
 	private void printLibrary(Library data) {
+		if(data == null) return;
 		String address;
 		try {
 			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
-			address = String.format("%s, %d - %s, %s, %s - %s, %d", l.getLogradouro(), data.getNumber(), l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep());
-		} catch (Exception e) { address = String.format("%n, %n", data.getCep(), data.getNumber()); }
+			address = String.format("%s, %d - %s, %s, %s - %s, %s", l.getLogradouro(), data.getNumber(), l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep());
+		} catch (Exception e) { address = String.format("%s, %d", data.getCep(), data.getNumber()); }
 		ConsoleManager.print(data.getName()+" ");
 		ConsoleManager.println(address);
 	}
