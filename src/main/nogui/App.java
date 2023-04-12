@@ -19,6 +19,7 @@ public class App {
     public void main(String[] args) {
         try {
             for(;;) {
+                ConsoleManager.clear();
                 ConsoleManager.println("Escolha uma opção: ", Colors.GREEN);
                 ConsoleManager.println("1 - Adicionar biblioteca", Colors.CYAN);
                 ConsoleManager.println("2 - Listar bibliotecas", Colors.CYAN);
@@ -34,13 +35,13 @@ public class App {
                                 new Create(REPOSITORY).run();
                                 break;
                             case 2:
-                                ConsoleManager.println("Listar bibliotecas");
+                                new Read(REPOSITORY, API_CEP).run();
                                 break;
                             case 3:
-                                ConsoleManager.println("Deletar biblioteca");
+                                new Delete(REPOSITORY).run();
                                 break;
                             case 4:
-                                ConsoleManager.println("Atualizar biblioteca");
+                                new Update(REPOSITORY).run();
                                 break;
                             case 5:
                                 System.exit(0);
