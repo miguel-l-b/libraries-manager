@@ -15,7 +15,7 @@ public class CEP implements Cloneable {
 
     public static int parseInt(CEP value) { return Integer.parseInt(((CEP)value).value.replace("-", "")); }
     public static int parseInt(String value) throws Exception {
-        if(CEP.validation(value)) throw new Exception("the value is not a CEP");
+        if(!CEP.validation(value)) throw new Exception("the value is not a CEP");
         return Integer.parseInt(value.replace("-", ""));
     }
 
