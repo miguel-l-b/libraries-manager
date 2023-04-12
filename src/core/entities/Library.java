@@ -4,7 +4,7 @@ import exceptions.InvalidValueException;
 
 public class Library implements Cloneable {
     private String name;
-    private int cep;
+    private String cep;
     private int number;
 
     public Library() { }
@@ -25,7 +25,8 @@ public class Library implements Cloneable {
         if(!CEP.validation(data))
             throw new InvalidValueException("the cep is invalid");
         
-        this.cep = data;
+        try { this.cep = CEP.parseStr(data); }
+        catch (Exception e) { throw new InvalidValueException(e.getMessage()); }
     }
 
     public void setNumber(int data) throws InvalidValueException {
@@ -36,19 +37,19 @@ public class Library implements Cloneable {
     }
 
     public String getName() { return this.name; }
-    public int getCep() { return this.cep; }
+    public String getCep() { return this.cep; }
     public int getNumber() { return this.number; }
 
     @Override
     public String toString() {
-        try { return getName()+"@"+CEP.parseStr(getCep())+"."+getNumber(); }
+        try { return getName()+"@"+getCep()+"."+getNumber(); }
         catch (Exception e) { return null; }
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        try { return new Library(this.name, this.cep, this.number); }
-        catch (InvalidValueException e) { throw new CloneNotSupportedException(); }
+        try { return new Library(this.name, CEP.parseInt(this.cep), this.number); }
+        catch (Exception e) { throw new CloneNotSupportedException(); }
     }
 
     @Override
