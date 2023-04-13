@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 
 import app.use_cases.GetLibrary;
 import app.use_cases.UpdateLibraryByCepAndNumber;
+import core.entities.Library;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 public class UpdatePage implements ActionListener {
@@ -80,7 +81,7 @@ public class UpdatePage implements ActionListener {
         this.labelNewNumber.setFont(new Font("Serif", Font.PLAIN, 18));
         this.txtNewNumber.setBounds(160,300,160,25);
 
-        this.status.setBounds(30,370,250,25);
+        this.status.setBounds(30,370,400,30);
         this.status.setFont(new Font("Serif", Font.PLAIN, 18));
 
         this.btnFinish.setBounds(300,390,100,40);
@@ -118,9 +119,10 @@ public class UpdatePage implements ActionListener {
         if(e.getSource() == this.btnFinish){
             try{
                 REPOSITORY_UPDATE.updateLibrary(this.txtOldCep.getText(),
-                                                Integer.parseInt(this.txtOldNumber.getText()),
-                                                REPOSITORY_FIND.getLibraryBy(this.txtNewCep.getText(),
-                                                Integer.parseInt(this.txtNewNumber.getText())));
+                                              Integer.parseInt(this.txtOldNumber.getText()),
+                                              new Library(this.txtNewName.getText(),
+                                                          this.txtNewCep.getText(),
+                                                          Integer.parseInt(this.txtNewNumber.getText())));
                 this.status.setText("Repositório alterado com Sucesso.");
             }
             catch(Exception error){
