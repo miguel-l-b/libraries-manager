@@ -73,7 +73,7 @@ public class LaunchPage implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == this.btnCreate) new CreatePage(this.REPOSITORY);
         else if(e.getSource() == this.btnDelete) new DeletePage(this.REPOSITORY);
-        else if(e.getSource() == this.btnSelect) new SelectPage(this.REPOSITORY);
+        else if(e.getSource() == this.btnSelect) new SelectPage(this.REPOSITORY, this.API_CEP);
         else if(e.getSource() == this.btnUpdate) new UpdatePage(this.REPOSITORY);
     }
     

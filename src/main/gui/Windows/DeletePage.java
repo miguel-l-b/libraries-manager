@@ -46,7 +46,7 @@ public class DeletePage implements ActionListener {
         this.labelNumber.setFont(new Font("Serif", Font.BOLD, 18));
         this.txtNumber.setBounds(140, 140, 160, 25);
 
-        this.status.setBounds(30, 200, 250, 25);
+        this.status.setBounds(30, 200, 350, 25);
         this.status.setFont(new Font("Serif", Font.PLAIN, 18));
 
         this.btnFinish.setBounds(250, 220, 100, 40);
@@ -63,7 +63,7 @@ public class DeletePage implements ActionListener {
         this.frame.add(this.status);
         this.frame.add(this.btnFinish);
 
-        this.frame.setSize(400, 300);
+        this.frame.setSize(400, 350);
         this.frame.setLayout(null);
         this.frame.setVisible(true);
 

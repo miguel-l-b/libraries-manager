@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import app.use_cases.GetLibrary;
+import core.entities.CEP;
+import core.entities.Library;
+import core.entities.Logradouro;
+import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 import javax.swing.*;
@@ -16,6 +20,8 @@ import java.awt.event.*;
 
 public class SelectPage implements ActionListener{
     public final GetLibrary REPOSITORY;
+	public final CEPProvider API_CEP;
+
 
     JFrame frame = new JFrame();
 
@@ -34,8 +40,11 @@ public class SelectPage implements ActionListener{
 
     JButton btnFinish = new JButton("Selecionar");
 
-    public SelectPage(LibraryRepository repository){
+    String message = "";
+
+    public SelectPage(LibraryRepository repository, CEPProvider apiCep){
         this.REPOSITORY = new GetLibrary(repository, repository);
+        this.API_CEP = apiCep;
 
         this.title.setBounds(10, 5, 350, 30);
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
@@ -58,7 +67,7 @@ public class SelectPage implements ActionListener{
         this.status.setBounds(30, 220, 250, 25);
         this.status.setFont(new Font("Serif", Font.PLAIN, 18));
 
-        this.btnFinish.setBounds(250, 240, 100, 40);
+        this.btnFinish.setBounds(250, 260, 100, 40);
         this.btnFinish.setFocusable(false);
         this.btnFinish.addActionListener(this);
 
@@ -73,7 +82,7 @@ public class SelectPage implements ActionListener{
         this.frame.add(this.status);
         this.frame.add(this.btnFinish);
 
-        this.frame.setSize(400,350);
+        this.frame.setSize(400,400);
         this.frame.setLayout(null);
         this.frame.setVisible(true);
 
@@ -85,21 +94,40 @@ public class SelectPage implements ActionListener{
         frame.setLocation(((d.width - frame.getWidth())/2), ((d.height - frame.getHeight())/3)); 
     }
 
+    private void printLibrary(Library data) {
+		if(data == null) return;
+		String address;
+		try {
+			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
+			address = String.format("%s, %d - %s, %s, %s - %s, %s", l.getLogradouro(), data.getNumber(), l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep());
+		} catch (Exception e) { address = String.format("%s, %d", data.getCep(), data.getNumber()); }
+		this.message = (data.getName()+" ");
+		this.message += "\n" + (address);
+	}
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.btnFinish) {
             try {
-                if (this.txtName.getText().length() < 1 || this.txtName.getText() != null) 
-                    REPOSITORY.getLibrariesBy(this.txtName.getText());
+                
+                if (this.txtName.getText().length() < 1 || this.txtName.getText() != null) {
+
+                    for (Library l : REPOSITORY.getLibrariesBy(this.txtName.getText()))
+                        message += l + "";
+                }
 
                 else if (this.txtCep.getText() != null) {
                     if (this.txtNumber.getText() == null)
-                        REPOSITORY.getLibrariesBy(Integer.parseInt(this.txtCep.getText()));
+                        for (Library l : REPOSITORY.getLibrariesBy(Integer.parseInt(this.txtCep.getText())))
+                            message += l + "";                    
                     else
-                        REPOSITORY.getLibraryBy(this.txtCep.getText(), Integer.parseInt(this.txtNumber.getText()));
+                        message = (REPOSITORY.getLibraryBy(this.txtCep.getText(), Integer.parseInt(this.txtNumber.getText())) + "");
                 }
                 else if (this.txtNumber.getText() != null) 
-                    REPOSITORY.getLibrariesBy(this.txtNumber.getText());
+                    for (Library l : REPOSITORY.getLibrariesBy(Integer.parseInt(this.txtNumber.getText())))
+                        message += l + "";
+                
+                this.status.setText(message);  
             }
             catch (Exception error) {
                 this.status.setText(error.getMessage());
