@@ -4,9 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import app.use_cases.GetLibrary;
-import core.entities.CEP;
 import core.entities.Library;
-import core.entities.Logradouro;
 import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
@@ -16,7 +14,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import java.awt.Font;
-import java.awt.event.*;
 
 public class SelectPage implements ActionListener{
     public final GetLibrary REPOSITORY;
@@ -36,8 +33,9 @@ public class SelectPage implements ActionListener{
     JTextField txtCep = new JTextField();
     JTextField txtNumber = new JTextField();
 
-    JLabel status = new JLabel("Teste");
-
+    JLabel status = new JLabel("");
+    
+    JButton btnGetAll = new JButton("Todas");
     JButton btnFinish = new JButton("Selecionar");
 
     String message = "";
@@ -67,6 +65,10 @@ public class SelectPage implements ActionListener{
         this.status.setBounds(30, 220, 250, 25);
         this.status.setFont(new Font("Serif", Font.PLAIN, 18));
 
+        this.btnGetAll.setBounds(30, 260, 100, 40);
+        this.btnGetAll.setFocusable(false);
+        this.btnGetAll.addActionListener(this);
+
         this.btnFinish.setBounds(250, 260, 100, 40);
         this.btnFinish.setFocusable(false);
         this.btnFinish.addActionListener(this);
@@ -80,6 +82,7 @@ public class SelectPage implements ActionListener{
         this.frame.add(this.labelNumber);
         this.frame.add(this.txtNumber);
         this.frame.add(this.status);
+        this.frame.add(this.btnGetAll);
         this.frame.add(this.btnFinish);
 
         this.frame.setSize(400,400);
@@ -93,17 +96,6 @@ public class SelectPage implements ActionListener{
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize(); 
         frame.setLocation(((d.width - frame.getWidth())/2), ((d.height - frame.getHeight())/3)); 
     }
-
-    private void printLibrary(Library data) {
-		if(data == null) return;
-		String address;
-		try {
-			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
-			address = String.format("%s, %d - %s, %s, %s - %s, %s", l.getLogradouro(), data.getNumber(), l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep());
-		} catch (Exception e) { address = String.format("%s, %d", data.getCep(), data.getNumber()); }
-		this.message = (data.getName()+" ");
-		this.message += "\n" + (address);
-	}
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -133,5 +125,7 @@ public class SelectPage implements ActionListener{
                 this.status.setText(error.getMessage());
             }
         }
+        else if (e.getSource() == this.btnGetAll) 
+            new TablePage(REPOSITORY, API_CEP);
     }
 }
