@@ -16,3 +16,7 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 ## Dependency Management
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+## Lembrar
+Select por cep ou número não emite dados no nogui (por nome e por cep e num funcionando normal)
+Dados que contém acentos não são exibidos no nogui, usando buscar por nome
