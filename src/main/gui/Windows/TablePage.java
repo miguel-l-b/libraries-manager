@@ -22,10 +22,8 @@ public class TablePage{
     
     private String[] getRegister(Library data) throws Exception {
 		if(data == null) throw new Exception();
-		String address;
 		try {
 			Logradouro l = this.API_CEP.getAddress(CEP.parseCep(data.getCep()));
-			// address = String.format("%s, %d - %s, %s, %s - %s, %s", l.getLogradouro(), data.getNumber(), l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep());
             String[] fields = {data.getName(), l.getLogradouro(), data.getNumber() + "", l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep()};
             return fields;
 		} catch (Exception e) { 
@@ -35,20 +33,32 @@ public class TablePage{
         }
 	}
 
-    public TablePage(GetLibrary repository, CEPProvider apiCep) {
+    public void getAllLibraries(Library[] libraries) throws Exception {
+        int line = 0;
+        for (Library l : libraries) {
+            this.newFields[line] = this.getRegister(l);
+            line++;
+        }
+    }
+
+    public TablePage(GetLibrary repository, CEPProvider apiCep, int choice) {
         this.REPOSITORY = repository;
 		this.API_CEP = apiCep;
 
         try {
             Library[] libraries =  REPOSITORY.getAllLibraries();
-
             String[] columnNames = {"Nome", "Logradouro", "Número", "Complemento", "Bairro", "Cidade", "Estado", "CEP"};
-            int line = 0;
             newFields = new String[libraries.length][columnNames.length];
-            for (Library l : libraries) {
-                this.newFields[line] = this.getRegister(l);
-                line++;
+            
+            switch (choice) {
+                case(1):
+                    this.getAllLibraries(libraries);
+                    break;
+                case(2):
+
+
             }
+
             table = new JTable(this.newFields, columnNames);
             
             table.getColumnModel().getColumn(0).setPreferredWidth(110);

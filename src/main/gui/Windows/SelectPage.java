@@ -126,6 +126,6 @@ public class SelectPage implements ActionListener{
             }
         }
         else if (e.getSource() == this.btnGetAll) 
-            new TablePage(REPOSITORY, API_CEP);
+            new TablePage(REPOSITORY, API_CEP, 1);
     }
 }

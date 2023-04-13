@@ -76,7 +76,7 @@ public class Read {
 							String cepOrNumber = Keyboard.getString();
 
 							try {
-								for (Library l : REPOSITORY.getLibrariesBy(cepOrNumber))
+								for (Library l : REPOSITORY.getLibrariesBy(Integer.parseInt(cepOrNumber)))
 									printLibrary(l);
 								stop();
 							}
