@@ -15,7 +15,7 @@ public class DeletePage implements ActionListener {
     public final DeleteLibrary REPOSITORY;
 
     JFrame frame = new JFrame();
-    JLabel title = new JLabel("Deletar itens");
+    JLabel title = new JLabel("Deletar dados");
     JLabel subtitle = new JLabel("Preencha os dados do valor que deseja excluir: ");
 
     JLabel labelCep = new JLabel("CEP: ");
