@@ -104,8 +104,7 @@ public class SelectPage implements ActionListener{
                 
                 if (this.txtName.getText().length() < 1 || this.txtName.getText() != null) {
 
-                    for (Library l : REPOSITORY.getLibrariesBy(this.txtName.getText()))
-                        message += l + "";
+                    new TablePage(REPOSITORY, API_CEP, 2);
                 }
 
                 else if (this.txtCep.getText() != null) {
