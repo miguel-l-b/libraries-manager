@@ -20,13 +20,13 @@ public class LaunchPage implements ActionListener {
 
     private JFrame frame = new JFrame();
 
-    private JLabel title = new JLabel("Launch Page");
+    private JLabel title = new JLabel("Bem vindo ao sistema de bibliotecas!");
     private JLabel subtitle = new JLabel("Escolha o que deseja fazer:");
 
-    private JButton btnCreate = new JButton("Create");
-    private JButton btnDelete = new JButton("Delete");
-    private JButton btnUpdate = new JButton("Update");
-    private JButton btnSelect = new JButton("Select");
+    private JButton btnCreate = new JButton("Criar");
+    private JButton btnDelete = new JButton("Deletar");
+    private JButton btnUpdate = new JButton("Atualizar");
+    private JButton btnSelect = new JButton("Selecionar");
     
     public LaunchPage(String pathData, String urlApi) {
 
