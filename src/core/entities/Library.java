@@ -4,11 +4,13 @@ import exceptions.InvalidValueException;
 
 public class Library implements Cloneable {
     private String name;
+    private String email;
+    private String complement;
     private String cep;
     private int number;
 
     public Library() { }
-    public Library(String name, String cep, int number) throws InvalidValueException {
+    public Library(String name, String email, String complement, String cep, int number) throws InvalidValueException {
         setName(name);
         setCep(cep);
         setNumber(number);
@@ -16,18 +18,28 @@ public class Library implements Cloneable {
 
     public void setName(String data) throws InvalidValueException {
         if(data == null || data.length() > 20)
-            throw new InvalidValueException("the data is invalid");
+            throw new InvalidValueException("the name is invalid");
 
         this.name = data;
     }
+    public void setEmail(String data) throws InvalidValueException {
+        if(!Email.validation(data))
+            throw new InvalidValueException("the email is invalid");
 
+        this.email = data;
+    }
+    public void setComplement(String data) throws InvalidValueException {
+        if(data == null || data.length() > 20)
+            throw new InvalidValueException("the complement is invalid");
+
+        this.complement = data;
+    }
     public void setCep(String data) throws InvalidValueException {
         if(!CEP.validation(data))
             throw new InvalidValueException("the cep is invalid");
         
         this.cep = data;
     }
-
     public void setNumber(int data) throws InvalidValueException {
         if(data <= 0)
             throw new InvalidValueException("the number is invalid");
@@ -36,6 +48,8 @@ public class Library implements Cloneable {
     }
 
     public String getName() { return this.name; }
+    public String getEmail() { return this.email; }
+    public String getComplement() { return this.complement; }
     public String getCep() { return this.cep; }
     public int getNumber() { return this.number; }
 
@@ -47,7 +61,7 @@ public class Library implements Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        try { return new Library(this.name, this.cep, this.number); }
+        try { return new Library(this.name, this.email, this.complement, this.cep, this.number); }
         catch (Exception e) { throw new CloneNotSupportedException(); }
     }
 
