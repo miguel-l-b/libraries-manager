@@ -11,24 +11,23 @@ import exceptions.InvalidValueException;
 import infrastructure.providers.api.CEPProvider;
 
 public class TablePage{
-    public final GetLibrary REPOSITORY;
-	public final CEPProvider API_CEP;
+    private static GetLibrary REPOSITORY;
+	private static CEPProvider API_CEP;
     
-    Library[] libraries;
-    String[] columnNames = {"Nome", "Logradouro", "Número", "Complemento", "Bairro", "Cidade", "Estado", "CEP"};
+    private static Library[] libraries;
+    private static String[][] newFields;
+    private static String[] columnNames = {"Nome", "Logradouro", "Número", "Complemento", "Bairro", "Cidade", "Estado", "CEP"};
 
-    JFrame frame = new JFrame();
-    JTextArea txt = new JTextArea();
-    JTable table;
-    DefaultTableCellRenderer cellRenderer;
-
-    public String[][] newFields;
+    private static JFrame frame = new JFrame();
+    private static JTextArea txt = new JTextArea();
+    private static JTable table;
+    private static DefaultTableCellRenderer cellRenderer;
     
-    private String[] getRegister(Library data) throws Exception {
+    private static String[] getRegister(Library data) throws Exception {
 		if(data == null) throw new Exception();
 
 		try {
-			Logradouro l = this.API_CEP.getAddress(CEP.parseCep(data.getCep()));
+			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
             String[] fields = {data.getName(), l.getLogradouro(), data.getNumber() + "", l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep()};
             return fields;
 		} 
@@ -38,75 +37,71 @@ public class TablePage{
         }
 	}
 
-    public void getAllLibraries() throws Exception  {
+    public static void getAllLibraries() throws Exception  {
         try {
-            this.libraries =  REPOSITORY.getAllLibraries();
-            newFields = new String[this.libraries.length][columnNames.length];
+            libraries =  REPOSITORY.getAllLibraries();
+            newFields = new String[libraries.length][columnNames.length];
 
             int line = 0;
-            for (Library l : this.libraries) {
-                this.newFields[line] = this.getRegister(l);
+            for (Library l : libraries) {
+                newFields[line] = getRegister(l);
                 line++;
             }
-
+            run();
         }
         catch (InvalidValueException e) { System.out.println(e.getMessage()); }
     }
 
-    public void getLibrariesBy(String name) throws Exception {
-        libraries =  REPOSITORY.getLibrariesBy(name);
-        newFields = new String[this.libraries.length][columnNames.length];
-
-        int line = 0;
-        for (Library l : libraries) {
-            this.newFields[line] = this.getRegister(l);
-            line++;
+    public static void getLibrariesBy(String name) throws Exception {
+        try {
+            libraries =  REPOSITORY.getLibrariesBy(name);
+            newFields = new String[libraries.length][columnNames.length];
+    
+            int line = 0;
+            for (Library l : libraries) {
+                newFields[line] = getRegister(l);
+                line++;
+            }
+            run();
         }
+        catch(InvalidValueException e) { System.out.println(e.getMessage()); }
     }
 
-    public TablePage(GetLibrary repository, CEPProvider apiCep, int choice) {
-        this.REPOSITORY = repository;
-		this.API_CEP = apiCep;
+    public static void run() {
 
-        try {
+        table = new JTable(newFields, columnNames);
             
-            switch (choice) {
-                case(1):
-                    this.getAllLibraries();
-                    break;
-                case(2):
-                    this.getLibrariesBy(null);
-                    
-
-            }
-
-            table = new JTable(this.newFields, columnNames);
-            
-            table.getColumnModel().getColumn(0).setPreferredWidth(110);
-            table.getColumnModel().getColumn(1).setPreferredWidth(100);
-            table.getColumnModel().getColumn(2).setPreferredWidth(10);
-            table.getColumnModel().getColumn(3).setPreferredWidth(200);
-            table.getColumnModel().getColumn(4).setPreferredWidth(220);
-            table.getColumnModel().getColumn(5).setPreferredWidth(70);
-            table.getColumnModel().getColumn(6).setPreferredWidth(5);
-            table.getColumnModel().getColumn(7).setPreferredWidth(50);
-            
-            cellRenderer = new DefaultTableCellRenderer();
-            table.getColumnModel().getColumn(2).setCellRenderer(cellRenderer);
-            
-        } 
-        catch(Exception erro) {
-            System.out.println(erro.getMessage());
-        }
-
+        table.getColumnModel().getColumn(0).setPreferredWidth(110);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(10);
+        table.getColumnModel().getColumn(3).setPreferredWidth(200);
+        table.getColumnModel().getColumn(4).setPreferredWidth(220);
+        table.getColumnModel().getColumn(5).setPreferredWidth(70);
+        table.getColumnModel().getColumn(6).setPreferredWidth(5);
+        table.getColumnModel().getColumn(7).setPreferredWidth(50);
+        
+        cellRenderer = new DefaultTableCellRenderer();
+        table.getColumnModel().getColumn(2).setCellRenderer(cellRenderer);
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane);
         frame.setSize(1000, 400);
         frame.setVisible(true);
         handleLocation();
     }
+    public TablePage(GetLibrary repository, CEPProvider apiCep) {
+        REPOSITORY = repository;
+		API_CEP = apiCep;
+    }
+    // try {
+        
+        
+        
+    // } 
+    // catch(Exception erro) {
+    //     System.out.println(erro.getMessage());
+    // }
     
-    private void handleLocation(){
+    private static void handleLocation(){
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize(); 
         frame.setLocation(((d.width - frame.getWidth())/2), ((d.height - frame.getHeight())/3));
     }

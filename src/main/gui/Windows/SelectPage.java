@@ -102,9 +102,10 @@ public class SelectPage implements ActionListener{
         if (e.getSource() == this.btnFinish) {
             try {
                 
-                if (this.txtName.getText().length() < 1 || this.txtName.getText() != null) {
-
-                    new TablePage(REPOSITORY, API_CEP, 2);
+                if (this.txtName.getText() != null) {
+                    System.out.println(" Entered");
+                    new TablePage(REPOSITORY, API_CEP);
+                    TablePage.getLibrariesBy(this.txtName.getText());
                 }
 
                 else if (this.txtCep.getText() != null) {
@@ -124,7 +125,13 @@ public class SelectPage implements ActionListener{
                 this.status.setText(error.getMessage());
             }
         }
-        else if (e.getSource() == this.btnGetAll) 
-            new TablePage(REPOSITORY, API_CEP, 1);
+        else if (e.getSource() == this.btnGetAll) {
+            try {
+                new TablePage(REPOSITORY, API_CEP);
+                TablePage.getAllLibraries();
+
+            }
+            catch(Exception error) { System.out.println(error.getMessage()); }
+        }
     }
 }
