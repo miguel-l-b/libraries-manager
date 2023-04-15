@@ -20,7 +20,7 @@ public class CreatePage implements ActionListener{
 
     private JFrame frame = new JFrame();
 
-    private JLabel title = new JLabel("Create Page");
+    private JLabel title = new JLabel("Criar dados");
     private JLabel subtitle = new JLabel("Preencha os campos abaixo: ");
     
     private JTextField txtName = new JTextField();
@@ -28,9 +28,9 @@ public class CreatePage implements ActionListener{
     private JTextField txtNumber = new JTextField();
 
     private JLabel status = new JLabel();
-    private JLabel labelName = new JLabel("Name: ");
+    private JLabel labelName = new JLabel("Nome: ");
     private JLabel labelCep = new JLabel ("CEP: ");
-    private JLabel labelNumber = new JLabel("Number: ");
+    private JLabel labelNumber = new JLabel("Número: ");
 
     private JButton btnFinish = new JButton("Criar");
 
