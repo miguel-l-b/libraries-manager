@@ -1,7 +1,8 @@
 package core.use_cases.library;
 
+import core.entities.Library;
 import exceptions.InvalidValueException;
 
 public interface ICreateLibrary {
-    void createLibrary(String name, String cep, int number)  throws InvalidValueException;
+    void createLibrary(Library data)  throws InvalidValueException;
 }
