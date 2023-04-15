@@ -4,30 +4,59 @@ import Console.Colors;
 import Console.ConsoleManager;
 import Input.Keyboard;
 import app.use_cases.CreateLibrary;
+import core.entities.CEP;
+import core.entities.Library;
+import core.entities.Logradouro;
+import exceptions.InvalidValueException;
+import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 public class Create {
+	public final CEPProvider API_CEP;
 	public final CreateLibrary REPOSITORY;
 
-	public Create(LibraryRepository repository) { this.REPOSITORY = new CreateLibrary(repository); }
+	public Create(LibraryRepository repository, CEPProvider apiCep) {
+		this.API_CEP = apiCep;
+		this.REPOSITORY = new CreateLibrary(repository);
+	}
 
 	public void run() {
 		ConsoleManager.clear();
 		ConsoleManager.println("Adicionar biblioteca", Colors.GREEN);
-
-		ConsoleManager.print(" Nome: ", Colors.CYAN);
-		String name = Keyboard.getString();
-		ConsoleManager.print(" Cep: ", Colors.CYAN);
-		String cep = Keyboard.getString();
-		ConsoleManager.print(" Numbero: ", Colors.CYAN);
-		int number = Integer.parseInt(Keyboard.getString());
-
-
-		try { REPOSITORY.createLibrary(name, cep, number); }
-		catch (Exception e) {
-			ConsoleManager.println(e.getMessage(), Colors.RED);
-			ConsoleManager.println("Pressione qualquer tecla para continuar...", Colors.RED);
-			Keyboard.getString();
+		Library library = new Library();
+		try {
+			ConsoleManager.print(" Nome: ", Colors.CYAN);
+			library.setName(Keyboard.getString());
+			ConsoleManager.print(" Email: ", Colors.CYAN);
+			library.setEmail(Keyboard.getString());
+			ConsoleManager.print(" Complemento: ", Colors.CYAN);
+			library.setComplement(Keyboard.getString());
+			ConsoleManager.print(" Cep: ", Colors.CYAN);
+			library.setCep(Keyboard.getString());
+			ConsoleManager.print(" Numbero: ", Colors.CYAN);
+			library.setNumber(Integer.parseInt(Keyboard.getString()));
 		}
+		catch (InvalidValueException e) {
+			App.printError(e);
+			return;
+		}
+
+		try {
+			Logradouro l = API_CEP.getAddress(CEP.parseCep(library.getCep()));
+			ConsoleManager.println(App.formatLibrary(library, l));
+			
+			ConsoleManager.print("Confirma? (s/n): ", Colors.CYAN);
+			if ("Ss".indexOf(Keyboard.getString()) == -1) {
+				App.stop();
+				return;
+			}
+		}
+		catch (Exception e) {
+			App.printError("Esse CEP não existe!\n tente novamente com um CEP válido.");
+			return;
+		}
+
+		try { REPOSITORY.createLibrary(library); }
+		catch (Exception e) { App.printError(e); }
 	}
 }

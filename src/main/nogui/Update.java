@@ -7,16 +7,18 @@ import Input.Keyboard;
 import app.use_cases.GetLibrary;
 import app.use_cases.UpdateLibraryByCepAndNumber;
 import core.entities.Library;
-import exceptions.InvalidValueException;
+import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 public class Update {
 	public final UpdateLibraryByCepAndNumber REPOSITORY_UPDATE;
 	public final GetLibrary REPOSITORY_FIND;
+	public final CEPProvider CEP_PROVIDER;
 
-	public Update(LibraryRepository repository) {
+	public Update(LibraryRepository repository, CEPProvider cepProvider) {
 		this.REPOSITORY_FIND = new GetLibrary(repository, repository);
 		this.REPOSITORY_UPDATE = new UpdateLibraryByCepAndNumber(repository);
+		this.CEP_PROVIDER = cepProvider;
 		
 	}
 

@@ -25,16 +25,6 @@ public class Read {
 		this.API_CEP = apiCep;
 	}
 
-	private void printError(Exception e) {
-		ConsoleManager.println(e.getMessage(), Colors.RED);
-		stop();
-	}
-
-	private void stop() {
-		ConsoleManager.println("Pressione qualquer tecla para continuar...", Colors.YELLOW_BOLD);
-		Keyboard.getString();
-	}
-
 	private void printLibrary(Library data) {
 		if(data == null) return;
 		String address;
@@ -67,9 +57,9 @@ public class Read {
 							try {
 								for (Library l : REPOSITORY.getLibrariesBy(name))
 									printLibrary(l);
-								stop();
+								App.stop();
 							}
-							catch (InvalidValueException e) { printError(e); }
+							catch (InvalidValueException e) { App.printError(e); }
 							break;
 						case(2):
 							ConsoleManager.print(" Cep ou Numero: ", Colors.CYAN);
@@ -78,9 +68,9 @@ public class Read {
 							try {
 								for (Library l : REPOSITORY.getLibrariesBy(Integer.parseInt(cepOrNumber)))
 									printLibrary(l);
-								stop();
+									App.stop();
 							}
-							catch (InvalidValueException e) { printError(e); }
+							catch (InvalidValueException e) { App.printError(e); }
 							break;
 						case(3):
 							ConsoleManager.print(" Cep: ", Colors.CYAN);
@@ -90,19 +80,19 @@ public class Read {
 							
 							try {
 								printLibrary(REPOSITORY.getLibraryBy(cep, number));
-								stop();
+								App.stop();
 							}
-							catch (InvalidValueException e) { printError(e); }
+							catch (InvalidValueException e) { App.printError(e); }
 							break;
 						case(4):
 								for (Library l : REPOSITORY.getAllLibraries())
 									printLibrary(l);
-								stop();
+								App.stop();
 							break;
 						case(5):
 							break;
 						default:
-							printError(new InvalidValueException("Opção inválida!")); 
+							App.printError(new InvalidValueException("Opção inválida!")); 
 							new Read(REPOSITORY, API_CEP).run();
 							break;
 					}
@@ -110,8 +100,7 @@ public class Read {
 			});
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			printError(e); 
+			App.printError(e); 
 			new Read(REPOSITORY, API_CEP).run();
 		}
 	}
