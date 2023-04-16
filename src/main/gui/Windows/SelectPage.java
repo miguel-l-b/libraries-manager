@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import app.use_cases.GetLibrary;
-import core.entities.Library;
 import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
@@ -101,25 +100,25 @@ public class SelectPage implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.btnFinish) {
             try {
-                
-                if (this.txtName.getText() != null) {
-                    System.out.println(" Entered");
-                    new TablePage(REPOSITORY, API_CEP);
-                    TablePage.getLibrariesBy(this.txtName.getText());
-                }
+                if (this.txtName.getText().isEmpty() && this.txtCep.getText().isEmpty())
+                    this.status.setText("Preencha pelo menos o campo CEP ou Nome!");
+                else {
+                    if (!this.txtName.getText().isEmpty()) {
+                        new TablePage(REPOSITORY, API_CEP);
+                        TablePage.getLibrariesBy(this.txtName.getText());
+                    }
+                    else if (!this.txtCep.getText().isEmpty()) {
+                        if (!this.txtNumber.getText().isEmpty()) {
+                            new TablePage(REPOSITORY, API_CEP);
+                            TablePage.getLibraryBy(this.txtCep.getText(), Integer.parseInt(this.txtNumber.getText()));                    
+                        }
+                        else
+                            new TablePage(REPOSITORY, API_CEP);
+                            TablePage.getLibrariesBy(Integer.parseInt(this.txtCep.getText()));
+                    }
+                    this.status.setText("Busca realizada com sucesso!");
 
-                else if (this.txtCep.getText() != null) {
-                    if (this.txtNumber.getText() == null)
-                        for (Library l : REPOSITORY.getLibrariesBy(Integer.parseInt(this.txtCep.getText())))
-                            message += l + "";                    
-                    else
-                        message = (REPOSITORY.getLibraryBy(this.txtCep.getText(), Integer.parseInt(this.txtNumber.getText())) + "");
                 }
-                else if (this.txtNumber.getText() != null) 
-                    for (Library l : REPOSITORY.getLibrariesBy(Integer.parseInt(this.txtNumber.getText())))
-                        message += l + "";
-                
-                this.status.setText(message);  
             }
             catch (Exception error) {
                 this.status.setText(error.getMessage());
@@ -129,7 +128,6 @@ public class SelectPage implements ActionListener{
             try {
                 new TablePage(REPOSITORY, API_CEP);
                 TablePage.getAllLibraries();
-
             }
             catch(Exception error) { System.out.println(error.getMessage()); }
         }
