@@ -18,7 +18,7 @@ public class TablePage{
     private static String[][] newFields;
     private static String[] columnNames = {"Nome", "Logradouro", "Número", "Complemento", "Bairro", "Cidade", "Estado", "CEP"};
 
-    private static JFrame frame = new JFrame();
+    private static JFrame frame;
     private static JTable table;
     private static DefaultTableCellRenderer cellRenderer;
     
@@ -27,7 +27,7 @@ public class TablePage{
 
 		try {
 			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
-            String[] fields = {data.getName(), l.getLogradouro(), data.getNumber() + "", l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep()};
+            String[] fields = {data.getName(), l.getLogradouro(), data.getNumber() + "", data.getComplement(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep()};
             return fields;
 		} 
         catch (Exception e) { 
@@ -65,9 +65,35 @@ public class TablePage{
         }
         catch(InvalidValueException e) { System.out.println(e.getMessage()); }
     }
+    public static void getLibrariesBy(int cepOrNum) throws Exception {
+        try {
+            libraries =  REPOSITORY.getLibrariesBy(cepOrNum);
+            newFields = new String[libraries.length][columnNames.length];
+    
+            int line = 0;
+            for (Library l : libraries) {
+                newFields[line] = getRegister(l);
+                line++;
+            }
+            run();
+        }
+        catch(InvalidValueException e) { System.out.println(e.getMessage()); }
+    }
+    public static void getLibraryBy(String cep, int number) throws Exception {
+        try {
+            Library library;
+            library =  REPOSITORY.getLibraryBy(cep, number);
+            newFields = new String[1][columnNames.length];
+    
+            newFields[0] = getRegister(library);
+                
+            run();
+        }
+        catch(InvalidValueException e) { System.out.println(e.getMessage()); }
+    }
 
     public static void run() {
-
+        frame = new JFrame();
         table = new JTable(newFields, columnNames);
             
         table.getColumnModel().getColumn(0).setPreferredWidth(110);
