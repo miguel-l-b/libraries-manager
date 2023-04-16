@@ -30,7 +30,7 @@ public class Read {
 		String address;
 		try {
 			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
-			address = String.format("%s, %d - %s, %s, %s - %s, %s", l.getLogradouro(), data.getNumber(), l.getComplemento(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep());
+			address = App.formatLibrary(data, l);
 		} catch (Exception e) { address = String.format("%s, %d", data.getCep(), data.getNumber()); }
 		ConsoleManager.print(data.getName()+" ");
 		ConsoleManager.println(address);
@@ -68,7 +68,7 @@ public class Read {
 							try {
 								for (Library l : REPOSITORY.getLibrariesBy(Integer.parseInt(cepOrNumber)))
 									printLibrary(l);
-									App.stop();
+								App.stop();
 							}
 							catch (InvalidValueException e) { App.printError(e); }
 							break;
