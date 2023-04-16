@@ -31,7 +31,7 @@ public class App {
 		stop();
 	}
 
-	private static String stop() {
+	public static String stop() {
 		ConsoleManager.println("Pressione qualquer tecla para continuar...", Colors.YELLOW_BOLD);
 		return Keyboard.getString();
 	}
