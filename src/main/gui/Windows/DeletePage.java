@@ -4,7 +4,10 @@ import javax.swing.*;
 
 import app.use_cases.DeleteLibrary;
 import app.use_cases.GetLibrary;
+import core.entities.CEP;
 import core.entities.Library;
+import core.entities.Logradouro;
+import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 import java.awt.Dimension;
@@ -16,6 +19,7 @@ import java.awt.event.*;
 public class DeletePage implements ActionListener {
     private final GetLibrary REPOSITORY_FIND;
     public final DeleteLibrary REPOSITORY;
+    private final CEPProvider API_CEP;
 
     private JFrame frame = new JFrame();
     private JLabel title = new JLabel("Deletar dados");
@@ -33,9 +37,10 @@ public class DeletePage implements ActionListener {
 
     private JLabel status = new JLabel("");
 
-    public DeletePage(LibraryRepository repository) {
+    public DeletePage(LibraryRepository repository, CEPProvider apiCep) {
         this.REPOSITORY_FIND = new GetLibrary(repository, repository);
         this.REPOSITORY = new DeleteLibrary(repository);
+        this.API_CEP = apiCep;
 
         this.title.setBounds(10, 5, 350, 30);
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
@@ -89,11 +94,16 @@ public class DeletePage implements ActionListener {
                 else {
                     Library library = REPOSITORY_FIND.getLibraryBy(this.txtCep.getText(), Integer.parseInt(this.txtNumber.getText()));
                     
+                    Logradouro l = API_CEP.getAddress(CEP.parseCep(library.getCep()));
+
                     confirmDialog = JOptionPane.showOptionDialog(frame, "" + library.getName() +
-                                                                 ", " + library.getEmail() + 
-                                                                 ", " + library.getComplement() + 
-                                                                 ", " + library.getCep() + 
-                                                                 ", " + library.getNumber(), 
+                                                                ", " + l.getLogradouro() +
+                                                                ", " + library.getNumber() + 
+                                                                ", " + library.getComplement() + 
+                                                                ", " + l.getBairro() +
+                                                                ", " + l.getCidade() +
+                                                                ", " + l.getEstado() +
+                                                                ", " + library.getCep(),
                                                                  "Deseja mesmo excluir?", 
                                                                  JOptionPane.OK_CANCEL_OPTION, 
                                                                  JOptionPane.QUESTION_MESSAGE, 
