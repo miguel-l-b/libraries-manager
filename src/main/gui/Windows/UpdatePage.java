@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import app.use_cases.GetLibrary;
@@ -45,7 +46,8 @@ public class UpdatePage implements ActionListener {
     private JTextField txtNewNumber = new JTextField();
     private JTextField txtNewEmail = new JTextField();
     private JTextField txtNewComplement = new JTextField();
-    
+
+    private int confirmDialog;
     private JLabel status = new JLabel();
 
     private JButton btnFinish = new JButton("Alterar");
@@ -94,10 +96,10 @@ public class UpdatePage implements ActionListener {
         this.labelNewComplement.setFont(new Font("Serif", Font.PLAIN, 18));
         this.txtNewComplement.setBounds(200,360,160,25);
 
-        this.status.setBounds(30,380,400,30);
+        this.status.setBounds(30,390,400,30);
         this.status.setFont(new Font("Serif", Font.PLAIN, 18));
 
-        this.btnFinish.setBounds(300,400,100,40);
+        this.btnFinish.setBounds(300,450,100,40);
         this.btnFinish.setFocusable(false);
         this.btnFinish.addActionListener(this);
 
@@ -133,7 +135,7 @@ public class UpdatePage implements ActionListener {
         this.frame.add(this.status);
         this.frame.add(this.btnFinish);
 
-        this.frame.setSize(420, 500);
+        this.frame.setSize(440, 550);
         this.frame.setLayout(null);
         this.frame.setVisible(true);
         this.handleLocation();
@@ -143,14 +145,52 @@ public class UpdatePage implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == this.btnFinish){
             try{
-                REPOSITORY_UPDATE.updateLibrary(this.txtOldCep.getText(),
-                                              Integer.parseInt(this.txtOldNumber.getText()),
-                                              new Library(this.txtNewName.getText(),
-                                                          this.txtNewEmail.getText(),
-                                                          this.txtNewComplement.getText(),
-                                                          this.txtNewCep.getText(),
-                                                          Integer.parseInt(this.txtNewNumber.getText())));
-                this.status.setText("Repositório alterado com Sucesso.");
+                if (this.txtOldCep.getText().isEmpty() || this.txtOldNumber.getText().isEmpty())
+                    this.status.setText("Ambos os campos CEP e Número devem ser preenchidos!");
+                else {
+    
+                    Library library = REPOSITORY_FIND.getLibraryBy(this.txtOldCep.getText(), Integer.parseInt(this.txtOldNumber.getText()));
+    
+                    if (this.txtNewCep.getText().isEmpty())
+                        this.txtNewCep.setText(library.getCep());
+    
+                    if (this.txtNewName.getText().isEmpty())
+                        this.txtNewName.setText(library.getName());
+    
+                    if (this.txtNewNumber.getText().isEmpty())
+                        this.txtNewNumber.setText(String.valueOf(library.getNumber()));
+    
+                    if (this.txtNewEmail.getText().isEmpty())
+                        this.txtNewEmail.setText(library.getEmail());
+    
+                    if (this.txtNewComplement.getText().isEmpty())
+                        this.txtNewComplement.setText(library.getComplement());
+    
+                    confirmDialog = JOptionPane.showOptionDialog(frame, "" + this.txtNewName.getText() +
+                                                                 ", " + this.txtNewEmail.getText() + 
+                                                                 ", " + this.txtNewComplement.getText() + 
+                                                                 ", " + this.txtNewCep.getText() + 
+                                                                 ", " + Integer.parseInt(this.txtNewNumber.getText()), 
+                                                                 "Deseja mesmo alterar?", 
+                                                                 JOptionPane.OK_CANCEL_OPTION, 
+                                                                 JOptionPane.QUESTION_MESSAGE, 
+                                                                 null, 
+                                                                 null, 
+                                                                 null);
+                    if (confirmDialog == JOptionPane.CANCEL_OPTION)
+                        return;
+                    else {
+                        REPOSITORY_UPDATE.updateLibrary(this.txtOldCep.getText(),
+                                                      Integer.parseInt(this.txtOldNumber.getText()),
+                                                      new Library(this.txtNewName.getText(),
+                                                                  this.txtNewEmail.getText(),
+                                                                  this.txtNewComplement.getText(),
+                                                                  this.txtNewCep.getText(),
+                                                                  Integer.parseInt(this.txtNewNumber.getText())));
+                        this.status.setText("Repositório alterado com Sucesso.");
+                    }
+                }
+    
             }
             catch(Exception error){
                 this.status.setText(error.getMessage());
