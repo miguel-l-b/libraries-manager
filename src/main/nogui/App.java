@@ -18,6 +18,11 @@ public class App {
         this.REPOSITORY = new LibraryRepository(pathData);
     }
 
+    public static void printMessage(String message) {
+        ConsoleManager.println(message, Colors.CYAN);
+        stop();
+    }
+
     public static void printError(Exception e) {
 		printError(e.getMessage());
 	}
@@ -26,9 +31,9 @@ public class App {
 		stop();
 	}
 
-	public static void stop() {
+	private static String stop() {
 		ConsoleManager.println("Pressione qualquer tecla para continuar...", Colors.YELLOW_BOLD);
-		Keyboard.getString();
+		return Keyboard.getString();
 	}
 
     public static String formatLibrary(Library library, Logradouro logradouro) {
