@@ -14,13 +14,17 @@ import javax.swing.JTextField;
 
 import app.use_cases.GetLibrary;
 import app.use_cases.UpdateLibraryByCepAndNumber;
+import core.entities.CEP;
 import core.entities.Library;
+import core.entities.Logradouro;
+import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 public class UpdatePage implements ActionListener {
     public final UpdateLibraryByCepAndNumber REPOSITORY_UPDATE;
 	public final GetLibrary REPOSITORY_FIND;
-    
+    private final CEPProvider API_CEP;
+
     private JFrame frame = new JFrame();
     private JLabel title = new JLabel("Update Page");
     private JLabel subtitle = new JLabel("Preencha os campos para editar: ");
@@ -52,9 +56,10 @@ public class UpdatePage implements ActionListener {
 
     private JButton btnFinish = new JButton("Alterar");
 
-    public UpdatePage(LibraryRepository repository) {
+    public UpdatePage(LibraryRepository repository, CEPProvider apiCep) {
         this.REPOSITORY_FIND = new GetLibrary(repository, repository);
 		this.REPOSITORY_UPDATE = new UpdateLibraryByCepAndNumber(repository);
+        this.API_CEP = apiCep;
 
         this.title.setBounds(10, 5, 350, 30);
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
@@ -165,12 +170,17 @@ public class UpdatePage implements ActionListener {
     
                     if (this.txtNewComplement.getText().isEmpty())
                         this.txtNewComplement.setText(library.getComplement());
-    
-                    confirmDialog = JOptionPane.showOptionDialog(frame, "" + this.txtNewName.getText() +
-                                                                 ", " + this.txtNewEmail.getText() + 
-                                                                 ", " + this.txtNewComplement.getText() + 
-                                                                 ", " + this.txtNewCep.getText() + 
-                                                                 ", " + Integer.parseInt(this.txtNewNumber.getText()), 
+                    
+                    Logradouro l = API_CEP.getAddress(CEP.parseCep(library.getCep()));
+
+                    confirmDialog = JOptionPane.showOptionDialog(frame, "" + library.getName() +
+                                                                ", " + l.getLogradouro() +
+                                                                ", " + library.getNumber() + 
+                                                                ", " + library.getComplement() + 
+                                                                ", " + l.getBairro() +
+                                                                ", " + l.getCidade() +
+                                                                ", " + l.getEstado() +
+                                                                ", " + library.getCep(), 
                                                                  "Deseja mesmo alterar?", 
                                                                  JOptionPane.OK_CANCEL_OPTION, 
                                                                  JOptionPane.QUESTION_MESSAGE, 
