@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import app.use_cases.CreateLibrary;
+import core.entities.Library;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 public class CreatePage implements ActionListener{
@@ -114,11 +115,11 @@ public class CreatePage implements ActionListener{
     public void actionPerformed(ActionEvent e) {
        if(e.getSource() == this.btnFinish){
         try{
-            REPOSIROTY.createLibrary(this.txtName.getText(),
+            REPOSIROTY.createLibrary(new Library(this.txtName.getText(),
                                      this.txtEmail.getText(),
                                      this.txtComplement.getText(),
                                      this.txtCEP.getText(), 
-                                     Integer.valueOf(this.txtNumber.getText()));
+                                     Integer.valueOf(this.txtNumber.getText())));
             this.status.setText("Repositorio criado com sucesso.");
         }
         catch(Exception error){
