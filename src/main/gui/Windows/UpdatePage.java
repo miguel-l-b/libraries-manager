@@ -36,10 +36,15 @@ public class UpdatePage implements ActionListener {
     private JLabel labelNewName = new JLabel("Novo Nome:");
     private JLabel labelNewCep = new JLabel("Novo CEP:");
     private JLabel labelNewNumber = new JLabel("Novo Número:");
-
+    
+    private JLabel labelNewEmail = new JLabel("Novo Email:");
+    private JLabel labelNewComplement = new JLabel("Novo Complemento:");
+    
     private JTextField txtNewName = new JTextField();
     private JTextField txtNewCep = new JTextField();
     private JTextField txtNewNumber = new JTextField();
+    private JTextField txtNewEmail = new JTextField();
+    private JTextField txtNewComplement = new JTextField();
     
     private JLabel status = new JLabel();
 
@@ -60,50 +65,70 @@ public class UpdatePage implements ActionListener {
 
         this.labelOldCep.setBounds(30, 120,160,25);
         this.labelOldCep.setFont(new Font("Serif", Font.PLAIN, 18));
-        this.txtOldCep.setBounds(160,120,160,25);
+        this.txtOldCep.setBounds(200,120,160,25);
 
         this.labelOldNumber.setBounds(30,150,160,25);
         this.labelOldNumber.setFont(new Font("Serif", Font.PLAIN, 18));
-		this.txtOldNumber.setBounds(160,150,160,25);
+		this.txtOldNumber.setBounds(200,150,160,25);
 
         this.topicTchu.setBounds(30,200,350,30);
         this.topicTchu.setFont(new Font("Serif", Font.BOLD, 18));
 
         this.labelNewName.setBounds(30,240,160,25);
         this.labelNewName.setFont(new Font("Serif", Font.PLAIN, 18));
-        this.txtNewName.setBounds(160,240,160,25);
+        this.txtNewName.setBounds(200,240,160,25);
 
         this.labelNewCep.setBounds(30,270,160,25);
         this.labelNewCep.setFont(new Font("Serif", Font.PLAIN, 18));
-        this.txtNewCep.setBounds(160,270,160,25);
+        this.txtNewCep.setBounds(200,270,160,25);
 
         this.labelNewNumber.setBounds(30,300,160,25);
         this.labelNewNumber.setFont(new Font("Serif", Font.PLAIN, 18));
-        this.txtNewNumber.setBounds(160,300,160,25);
+        this.txtNewNumber.setBounds(200,300,160,25);
 
-        this.status.setBounds(30,370,400,30);
+        this.labelNewEmail.setBounds(30,330,160,25);
+        this.labelNewEmail.setFont(new Font("Serif", Font.PLAIN, 18));
+        this.txtNewEmail.setBounds(200,330,160,25);
+
+        this.labelNewComplement.setBounds(30,360,160,25);
+        this.labelNewComplement.setFont(new Font("Serif", Font.PLAIN, 18));
+        this.txtNewComplement.setBounds(200,360,160,25);
+
+        this.status.setBounds(30,380,400,30);
         this.status.setFont(new Font("Serif", Font.PLAIN, 18));
 
-        this.btnFinish.setBounds(300,390,100,40);
+        this.btnFinish.setBounds(300,400,100,40);
         this.btnFinish.setFocusable(false);
         this.btnFinish.addActionListener(this);
 
 
         this.frame.add(this.title);
         this.frame.add(this.subtitle);
+
         this.frame.add(this.topicUan);
+
         this.frame.add(this.labelOldCep);
         this.frame.add(this.txtOldCep);
+
         this.frame.add(this.labelOldNumber);
         this.frame.add(this.txtOldNumber);
 
         this.frame.add(this.topicTchu);
+
         this.frame.add(this.labelNewName);
         this.frame.add(this.txtNewName);
+
         this.frame.add(this.labelNewCep);
         this.frame.add(this.txtNewCep);
+
         this.frame.add(this.labelNewNumber);
         this.frame.add(this.txtNewNumber);
+
+        this.frame.add(this.labelNewEmail);
+        this.frame.add(this.txtNewEmail);
+
+        this.frame.add(this.labelNewComplement);
+        this.frame.add(this.txtNewComplement);
 
         this.frame.add(this.status);
         this.frame.add(this.btnFinish);
@@ -121,6 +146,8 @@ public class UpdatePage implements ActionListener {
                 REPOSITORY_UPDATE.updateLibrary(this.txtOldCep.getText(),
                                               Integer.parseInt(this.txtOldNumber.getText()),
                                               new Library(this.txtNewName.getText(),
+                                                          this.txtNewEmail.getText(),
+                                                          this.txtNewComplement.getText(),
                                                           this.txtNewCep.getText(),
                                                           Integer.parseInt(this.txtNewNumber.getText())));
                 this.status.setText("Repositório alterado com Sucesso.");
