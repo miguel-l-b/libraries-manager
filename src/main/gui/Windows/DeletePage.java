@@ -79,7 +79,7 @@ public class DeletePage implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.btnFinish) {
             try {
-                REPOSITORY.deleteLibrary(Integer.parseInt(this.txtCep.getText()), 
+                REPOSITORY.deleteLibrary(this.txtCep.getText(), 
                                         Integer.parseInt(this.txtNumber.getText())
                 );
                 this.status.setText("Respositório deletado com sucesso.");
