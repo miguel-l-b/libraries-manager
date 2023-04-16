@@ -28,7 +28,6 @@ public class DeletePage implements ActionListener {
     private JTextField txtNumber = new JTextField();
 
     private JButton btnFinish = new JButton("Excluir");
-    private JButton goBack;
 
     private int confirmDialog;
 
