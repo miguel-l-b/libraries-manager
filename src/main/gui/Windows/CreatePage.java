@@ -13,12 +13,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import app.use_cases.CreateLibrary;
+import core.entities.CEP;
 import core.entities.Library;
+import core.entities.Logradouro;
+import infrastructure.providers.api.CEPProvider;
 import infrastructure.repositories.jackson.LibraryRepository;
 
 public class CreatePage implements ActionListener{
 
     public final CreateLibrary REPOSIROTY;
+    private final CEPProvider API_CEP;
 
     private JFrame frame = new JFrame();
 
@@ -45,8 +49,9 @@ public class CreatePage implements ActionListener{
     private JLabel status = new JLabel();
     private JButton btnFinish = new JButton("Criar");
 
-    public CreatePage(LibraryRepository repository){
+    public CreatePage(LibraryRepository repository, CEPProvider apiCep){
         this.REPOSIROTY = new CreateLibrary(repository);
+        this.API_CEP = apiCep;
 
         this.title.setBounds(10, 5, 350, 30);
         this.title.setFont(new Font("Serif", Font.BOLD, 22));
@@ -126,11 +131,22 @@ public class CreatePage implements ActionListener{
             )
                 this.status.setText("Todos os campos devem ser preenchidos!");
             else {
-                confirmDialog = JOptionPane.showOptionDialog(frame, "" + this.txtName.getText() +
-                                                                 ", " + this.txtEmail.getText() + 
-                                                                 ", " + this.txtComplement.getText() + 
-                                                                 ", " + this.txtCep.getText() + 
-                                                                 ", " + this.txtNumber.getText(), 
+                Library library = new Library(this.txtName.getText(),
+                                              this.txtEmail.getText(),
+                                              this.txtComplement.getText(),
+                                              this.txtCep.getText(), 
+                                              Integer.valueOf(this.txtNumber.getText()));
+                                     
+                Logradouro l = API_CEP.getAddress(CEP.parseCep(library.getCep()));
+
+                confirmDialog = JOptionPane.showOptionDialog(frame, "" + library.getName() +
+                                                                 ", " + l.getLogradouro() +
+                                                                 ", " + library.getNumber() + 
+                                                                 ", " + library.getComplement() + 
+                                                                 ", " + l.getBairro() +
+                                                                 ", " + l.getCidade() +
+                                                                 ", " + l.getEstado() +
+                                                                 ", " + library.getCep(),
                                                                  "Deseja mesmo criar?", 
                                                                  JOptionPane.OK_CANCEL_OPTION, 
                                                                  JOptionPane.QUESTION_MESSAGE, 
