@@ -16,7 +16,7 @@ public class TablePage{
     
     private static Library[] libraries;
     private static String[][] newFields;
-    private static String[] columnNames = {"Nome", "Logradouro", "Número", "Complemento", "Bairro", "Cidade", "Estado", "CEP"};
+    private static String[] columnNames = {"Nome", "Email", "Logradouro", "Número", "Complemento", "Bairro", "Cidade", "Estado", "CEP"};
 
     private static JFrame frame;
     private static JTable table;
@@ -27,7 +27,7 @@ public class TablePage{
 
 		try {
 			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
-            String[] fields = {data.getName(), l.getLogradouro(), data.getNumber() + "", data.getComplement(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep()};
+            String[] fields = {data.getName(), data.getEmail(), l.getLogradouro(), data.getNumber() + "", data.getComplement(), l.getBairro(), l.getCidade(), l.getEstado(), data.getCep()};
             return fields;
 		} 
         catch (Exception e) { 
@@ -97,19 +97,20 @@ public class TablePage{
         table = new JTable(newFields, columnNames);
             
         table.getColumnModel().getColumn(0).setPreferredWidth(110);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.getColumnModel().getColumn(2).setPreferredWidth(10);
-        table.getColumnModel().getColumn(3).setPreferredWidth(200);
-        table.getColumnModel().getColumn(4).setPreferredWidth(220);
-        table.getColumnModel().getColumn(5).setPreferredWidth(70);
-        table.getColumnModel().getColumn(6).setPreferredWidth(5);
-        table.getColumnModel().getColumn(7).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+        table.getColumnModel().getColumn(2).setPreferredWidth(100);
+        table.getColumnModel().getColumn(3).setPreferredWidth(10);
+        table.getColumnModel().getColumn(4).setPreferredWidth(200);
+        table.getColumnModel().getColumn(5).setPreferredWidth(220);
+        table.getColumnModel().getColumn(6).setPreferredWidth(70);
+        table.getColumnModel().getColumn(7).setPreferredWidth(5);
+        table.getColumnModel().getColumn(8).setPreferredWidth(50);
         
         cellRenderer = new DefaultTableCellRenderer();
         table.getColumnModel().getColumn(2).setCellRenderer(cellRenderer);
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane);
-        frame.setSize(1000, 400);
+        frame.setSize(1250, 400);
         frame.setVisible(true);
         handleLocation();
     }
