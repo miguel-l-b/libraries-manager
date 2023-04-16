@@ -113,7 +113,7 @@ public class DeletePage implements ActionListener {
                 }
             } 
             catch(Exception error) {
-                this.status.setText(error.getMessage());
+                this.status.setText("A biblioteca não foi encontrada.");
             }
         }
     }

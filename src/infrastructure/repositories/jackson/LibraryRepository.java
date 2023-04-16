@@ -30,7 +30,7 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
         catch (FileNotFoundException e) { throw new IllegalArgumentException("path invalid"); }
     }
 
-    private void readerCurrentLibraries() {
+    private void readCurrentLibraries() {
         try {
             this.reader = new BufferedReader(new FileReader(path));
             this.libraries = (Library[]) Json.fromJson(reader.readLine(), Library[].class);
@@ -51,7 +51,7 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
 
     @Override
     public void create(Library data) {
-        this.readerCurrentLibraries();
+        this.readCurrentLibraries();
         try {
         if(this.findLibraryBy(CEP.parseInt(data.getCep()), data.getNumber()) != null)
             throw new IllegalArgumentException("library already exists");
@@ -69,7 +69,7 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
 
     @Override
     public void delete(int cep, int number) {
-        this.readerCurrentLibraries();
+        this.readCurrentLibraries();
 
         int index = this.getIndexOfLibraryBy(cep, number);
         if(index < 0)
@@ -89,13 +89,13 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
 
     @Override
     public Library[] findAllLibraries() {
-        this.readerCurrentLibraries();
+        this.readCurrentLibraries();
         return this.libraries;
-    }
+    } 
 
     @Override
     public Library updateLibraryByCepAndNumber(int cep, int number, Library newData) {
-        this.readerCurrentLibraries();
+        this.readCurrentLibraries();
         int index = this.getIndexOfLibraryBy(cep, number);
 
         this.libraries[index] = newData;
@@ -114,7 +114,7 @@ public class LibraryRepository implements ICreateLibraryRepository, IDeleteLibra
 
     @Override
     public Library findLibraryBy(int cep, int number) {
-        this.readerCurrentLibraries();
+        this.readCurrentLibraries();
         int index = this.getIndexOfLibraryBy(cep, number);        
         if(index < 0) return null;
         return this.libraries[index];
