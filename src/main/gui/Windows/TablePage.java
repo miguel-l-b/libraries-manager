@@ -19,7 +19,6 @@ public class TablePage{
     private static String[] columnNames = {"Nome", "Logradouro", "Número", "Complemento", "Bairro", "Cidade", "Estado", "CEP"};
 
     private static JFrame frame = new JFrame();
-    private static JTextArea txt = new JTextArea();
     private static JTable table;
     private static DefaultTableCellRenderer cellRenderer;
     
