@@ -9,9 +9,9 @@ public class App {
         String urlApi = App.URL_API;
 
         for (int i = 0; i < args.length; i++) {
-            if(args[i].equals("--path-data") && i+1 < args.length)
+            if(!pathData.equals(PATH_DATA) && (args[i].equals("--path-data") && i+1 < args.length))
                 pathData = args[i+1];
-            else if(args[i].equals("--url-api") && i+1 < args.length)
+            else if(!urlApi.equals(URL_API) && (args[i].equals("--url-api") && i+1 < args.length))
                 urlApi = args[i+1];
         }
 
