@@ -39,7 +39,7 @@ public class Delete {
 
 			ConsoleManager.print("Confirma? (s/n): ", Colors.CYAN);
 			if ("Nn".indexOf(Keyboard.getString()) != -1) {
-				App.stop();
+				App.printMessage("Operação cancelada");
 				return;
 			}
 		}
