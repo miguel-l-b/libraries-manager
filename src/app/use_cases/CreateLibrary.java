@@ -36,7 +36,6 @@ public class CreateLibrary implements ICreateLibrary {
             );
         }
         catch (Exception e) {
-            e.printStackTrace();
             throw new IllegalArgumentException(e.getMessage());
         }
     }
