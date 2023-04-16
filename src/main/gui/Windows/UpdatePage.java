@@ -187,7 +187,7 @@ public class UpdatePage implements ActionListener {
                                                                   this.txtNewComplement.getText(),
                                                                   this.txtNewCep.getText(),
                                                                   Integer.parseInt(this.txtNewNumber.getText())));
-                        this.status.setText("Repositório alterado com Sucesso.");
+                        this.status.setText("Biblioteca alterada com Sucesso.");
                     }
                 }
     
