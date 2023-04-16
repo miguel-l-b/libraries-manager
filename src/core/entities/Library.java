@@ -12,6 +12,8 @@ public class Library implements Cloneable {
     public Library() { }
     public Library(String name, String email, String complement, String cep, int number) throws InvalidValueException {
         setName(name);
+        setEmail(email);
+        setComplement(complement);
         setCep(cep);
         setNumber(number);
     }

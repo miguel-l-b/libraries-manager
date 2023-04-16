@@ -3,7 +3,6 @@ package main.nogui;
 import Console.Colors;
 import Console.ConsoleManager;
 import Input.Keyboard;
-import Input.MultipleChoice;
 import app.use_cases.CreateLibrary;
 import core.entities.CEP;
 import core.entities.Library;
@@ -45,27 +44,16 @@ public class Create {
 		try {
 			Logradouro l = API_CEP.getAddress(CEP.parseCep(library.getCep()));
 			ConsoleManager.println(App.formatLibrary(library, l));
-			
-			Keyboard.multipleChoiceChar(new MultipleChoice<Character>() {
-				@Override
-				public boolean isCorrect(Character choice) { return "SsNn".indexOf(choice) != -1; }
-
-				@Override
-				public void handleIncorrect(Character choice) {
-					ConsoleManager.println("Opção inválida!", Colors.RED);
-				}
-
-				@Override
-				public void handle(Character choice) {
-					switch(choice) {
-						case 's':
-							break;
-						case 'n':
-							App.printError("Operação cancelada!");
-							
-					}
-				}
-			});
+			ConsoleManager.print(" Deseja continuar? (s/n)", Colors.CYAN);
+			char c = Keyboard.getChar();
+			if("SsNn".indexOf(c) == -1) {
+				App.printError("Opção inválida!");
+				return;
+			}
+			if("Nn".indexOf(c) != -1) {
+				App.printMessage("Operação cancelada!");
+				return;
+			}
 		}
 		catch (Exception e) {
 			App.printError("Esse CEP não existe!\n tente novamente com um CEP válido.");
