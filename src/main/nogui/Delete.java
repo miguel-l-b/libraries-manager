@@ -38,7 +38,12 @@ public class Delete {
 			ConsoleManager.println(App.formatLibrary(library, l));
 
 			ConsoleManager.print("Confirma? (s/n): ", Colors.CYAN);
-			if ("Nn".indexOf(Keyboard.getString()) != -1) {
+			String c = Keyboard.getString();
+			if("SsNn".indexOf(c) == -1) {
+				App.printError("Opção inválida!");
+				return;
+			}
+			if ("Nn".indexOf(c) != -1) {
 				App.printMessage("Operação cancelada");
 				return;
 			}
