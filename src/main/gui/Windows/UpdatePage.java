@@ -96,8 +96,8 @@ public class UpdatePage implements ActionListener {
         this.labelNewComplement.setFont(new Font("Serif", Font.PLAIN, 18));
         this.txtNewComplement.setBounds(200,360,160,25);
 
-        this.status.setBounds(30,390,400,30);
-        this.status.setFont(new Font("Serif", Font.PLAIN, 18));
+        this.status.setBounds(30,390,500,30);
+        this.status.setFont(new Font("Serif", Font.PLAIN, 16));
 
         this.btnFinish.setBounds(300,450,100,40);
         this.btnFinish.setFocusable(false);
