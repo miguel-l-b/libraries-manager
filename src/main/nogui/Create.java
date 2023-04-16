@@ -45,7 +45,7 @@ public class Create {
 			Logradouro l = API_CEP.getAddress(CEP.parseCep(library.getCep()));
 			ConsoleManager.println(App.formatLibrary(library, l));
 			ConsoleManager.print(" Deseja continuar? (s/n)", Colors.CYAN);
-			char c = Keyboard.getChar();
+			String c = Keyboard.getString();
 			if("SsNn".indexOf(c) == -1) {
 				App.printError("Opção inválida!");
 				return;
