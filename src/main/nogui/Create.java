@@ -33,7 +33,7 @@ public class Create {
 			library.setComplement(Keyboard.getString());
 			ConsoleManager.print(" Cep: ", Colors.CYAN);
 			library.setCep(Keyboard.getString());
-			ConsoleManager.print(" Numbero: ", Colors.CYAN);
+			ConsoleManager.print(" Numero: ", Colors.CYAN);
 			library.setNumber(Integer.parseInt(Keyboard.getString()));
 		}
 		catch (InvalidValueException e) {
