@@ -20,12 +20,6 @@ public class CreateLibrary implements ICreateLibrary {
             throw new InvalidValueException(String.format("the cep: \"%s\" is not a CEP", library.getCep()));
         if (library.getNumber() <= 0 || library.getNumber() > 99999)
             throw new InvalidValueException(String.format("the number: \"%s\" is not a number", library.getName()));
-        if (!Email.validation(library.getEmail()))
-            throw new InvalidValueException(String.format("the email: \"%s\" is not a email", library.getEmail()));
-        if (library.getComplement() == null || library.getComplement().isBlank())
-            throw new InvalidValueException(
-                    String.format("the complement: \"%s\" cannot be empty", library.getComplement())
-                );
 
         try {
             this.REPOSITORY.create(
