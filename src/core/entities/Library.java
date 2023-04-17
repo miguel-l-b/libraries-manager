@@ -3,11 +3,13 @@ package core.entities;
 import exceptions.InvalidValueException;
 
 public class Library implements Cloneable {
+    //mandatory
     private String name;
-    private String email;
-    private String complement;
     private String cep;
     private int number;
+    //optional
+    private String complement;
+    private String email;
 
     public Library() { }
     public Library(String name, String email, String complement, String cep, int number) throws InvalidValueException {
@@ -25,15 +27,12 @@ public class Library implements Cloneable {
         this.name = data;
     }
     public void setEmail(String data) throws InvalidValueException {
-        if(!Email.validation(data))
+        if(data != null && !Email.validation(data))
             throw new InvalidValueException("the email is invalid");
 
         this.email = data;
     }
     public void setComplement(String data) throws InvalidValueException {
-        if(data == null || data.length() > 20)
-            throw new InvalidValueException("the complement is invalid");
-
         this.complement = data;
     }
     public void setCep(String data) throws InvalidValueException {

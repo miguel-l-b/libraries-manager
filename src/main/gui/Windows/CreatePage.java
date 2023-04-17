@@ -125,9 +125,7 @@ public class CreatePage implements ActionListener{
         try{
             if (this.txtCep.getText().isEmpty() || 
                 this.txtNumber.getText().isEmpty() ||
-                this.txtName.getText().isEmpty() ||
-                this.txtEmail.getText().isEmpty() ||
-                this.txtComplement.getText().isEmpty()
+                this.txtName.getText().isEmpty()
             )
                 this.status.setText("Todos os campos devem ser preenchidos!");
             else {
