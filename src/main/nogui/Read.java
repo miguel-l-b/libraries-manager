@@ -31,8 +31,12 @@ public class Read {
 		try {
 			Logradouro l = API_CEP.getAddress(CEP.parseCep(data.getCep()));
 			address = App.formatLibrary(data, l);
-		} catch (Exception e) { address = String.format("%s, %d", data.getCep(), data.getNumber()); }
-		ConsoleManager.print(data.getName()+" ");
+		} catch (Exception e) {
+			address = String.format(
+				"%s %s, %s - %s, %d", data.getName(),
+				data.getEmail(), data.getComplement(), data.getCep(), data.getNumber()
+			);
+		}
 		ConsoleManager.println(address);
 	}
 

@@ -39,8 +39,8 @@ public class App {
     public static String formatLibrary(Library library, Logradouro logradouro) {
         return String.format(
             "%s %s, %s, %d - %s, %s, %s - %s, %s", library.getName(),
-            library.getEmail(), logradouro.getLogradouro(), library.getNumber(), library.getComplement(), logradouro.getBairro(),
-            logradouro.getCidade(), logradouro.getEstado(), library.getCep()
+            library.getEmail(), logradouro.getLogradouro(), library.getNumber(), library.getComplement(),
+            logradouro.getBairro(), logradouro.getCidade(), logradouro.getEstado(), library.getCep()
         );
     }
 
